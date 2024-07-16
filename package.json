@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "name": "edulon",
+  "version": "1.0.0",
+  "description": "Edulon Monorepo powered by Turborepo",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Giuseppe Turturiello",
+    "url": "https://github.com/GT-Morphism"
+  },
+  "contributors": [
+    {
+      "name": "David Kopka",
+      "url": "https://github.com/Daveoffic"
+    }
+  ],
+  "license": "ISC",
+  "devDependencies": {
+    "turbo": "^2.0.6"
+  },
+  "engines": {
+    "node": ">=20.15.1 <21"
+  },
+  "packageManager": "pnpm@9.5.0"
+}
