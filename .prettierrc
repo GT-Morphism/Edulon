@@ -4,5 +4,6 @@
   "semi": true,
   "singleQuote": false,
   "trailingComma": "all",
+  "vueIndentScriptAndStyle": true,
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
 }
