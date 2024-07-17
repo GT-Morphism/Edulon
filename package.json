@@ -7,7 +7,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": {
@@ -22,6 +23,9 @@
   ],
   "license": "ISC",
   "devDependencies": {
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.6.5",
     "turbo": "^2.0.6"
   },
   "engines": {
