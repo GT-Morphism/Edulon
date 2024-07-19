@@ -82,3 +82,6 @@ pnpm-debug.log*
 .cache
 server/dist
 public/dist
+
+# pocketbase
+pb_data
