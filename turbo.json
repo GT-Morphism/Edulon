@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "build": {
+      "outputs": [".output/**", "dist/**"]
+    },
+    "dev": {
+      "outputs": [".nuxt/**"],
+      "cache": false
+    }
+  }
+}
