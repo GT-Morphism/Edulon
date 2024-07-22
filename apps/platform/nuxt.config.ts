@@ -4,7 +4,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   telemetry: false,
   
-  modules: ["@nuxt/eslint", "@nuxtjs/tailwindcss"],
+  modules: ["@nuxt/eslint", "@nuxt/ui"],
 
   future: {
     compatibilityVersion: 4,

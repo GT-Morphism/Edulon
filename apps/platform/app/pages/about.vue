@@ -1,8 +1,5 @@
-<script setup lang="ts">
-  const { data } = await useFetch("http://localhost:5555/api/user");
-  console.log(data.value.name);
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <h1>About {{ data }}</h1>
+  <h1>About</h1>
 </template>
