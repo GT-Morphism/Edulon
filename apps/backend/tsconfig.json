@@ -1,12 +1,28 @@
 {
-  "extends": "fastify-tsconfig",
   "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "exactOptionalPropertyTypes": true,
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "NodeNext",
+    "lib": ["ESNext"],
     "outDir": "dist",
     "sourceMap": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
-    "target": "ES2022",
-    "esModuleInterop": true
+    "paths": {
+      "@schemas/*": ["./src/schemas/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }
