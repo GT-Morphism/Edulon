@@ -5,7 +5,8 @@ import SwaggerUI from "@fastify/swagger-ui";
 
 const swaggerGenerator: FastifyPluginAsync = async (fastify, opts) => {
   await fastify.register(Swagger, {
-    swagger: {
+    openapi: {
+      openapi: "3.1.0",
       info: {
         title: "Edulon API Layer",
         description:
@@ -16,10 +17,6 @@ const swaggerGenerator: FastifyPluginAsync = async (fastify, opts) => {
         url: "https://github.com/GT-Morphism/edulon",
         description: "Repo to the entire project",
       },
-      host: "localhost",
-      schemes: ["http", "https"],
-      consumes: ["application/json"],
-      produces: ["application/json", "text/html"],
     },
   });
 

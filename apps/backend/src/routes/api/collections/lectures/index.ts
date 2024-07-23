@@ -15,7 +15,7 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
     async (request, reply) => {
       return [
         {
-          title: "The Art of the Art",
+          title: "The Art of Art",
           author: "Some artist, for sure",
           description: "When you talk about art, you talk about art.",
         },

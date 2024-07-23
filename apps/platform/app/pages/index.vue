@@ -1,8 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const lectures = await getLectures();
+</script>
 
 <template>
   <div>
     <h1>Home</h1>
     <p>All about you</p>
+    <ul>
+      <li v-for="lecture in lectures" :key="lecture.title">
+        {{ lecture.title }}
+        <span>{{ lecture.author }}</span>
+      </li>
+    </ul>
   </div>
 </template>
