@@ -1,0 +1,7 @@
+services:
+  database:
+    image: postgis/postgis:16-3.4
+    volumes:
+      - ./data/database:/var/lib/postgesql/data
+  directus:
+    image: directus/directus:latest
