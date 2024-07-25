@@ -71,6 +71,7 @@ pnpm-debug.log*
 
 
 # environment variables
+directus.env
 .env
 .env.production
 
