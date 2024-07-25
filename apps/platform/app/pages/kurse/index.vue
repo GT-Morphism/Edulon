@@ -1,5 +1,3 @@
 <template>
-  <div>
-    Kurse
-  </div>
+  <UContainer> Kurse </UContainer>
 </template>
