@@ -25,7 +25,29 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
         request.body.email,
         request.body.password,
       );
-      return data;
+
+      reply.setCookie("access_token", data.access_token || "no-access-token", {
+        httpOnly: true,
+        sameSite: true,
+        signed: true,
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60,
+        expires: new Date(Date.now() + (data.expires || 90000)),
+      });
+
+      reply.setCookie("expires", String(data.expires || 90000), {
+        httpOnly: true,
+        sameSite: true,
+        signed: true,
+        path: "/",
+        maxAge: 7 * 24 * 60 * 60,
+        expires: new Date(Date.now() + (data.expires || 90000)),
+      });
+
+      return {
+        message: "success",
+        authenticated: true,
+      };
     },
   );
 };

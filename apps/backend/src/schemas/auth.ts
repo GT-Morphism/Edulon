@@ -1,8 +1,8 @@
 import { Type } from "@sinclair/typebox";
 
 export const directusLoginResponseSchema = Type.Object({
-  access_token: Type.Union([Type.String(), Type.Null()]),
-  expires: Type.Union([Type.Number(), Type.Null()]),
+  message: Type.String(),
+  authenticated: Type.Boolean(),
 });
 
 export const directusLoginPostSchema = Type.Object({

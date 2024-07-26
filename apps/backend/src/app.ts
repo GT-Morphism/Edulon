@@ -1,6 +1,7 @@
 import * as path from "path";
 import AutoLoad, { type AutoloadPluginOptions } from "@fastify/autoload";
 import Env from "@fastify/env";
+import Cors from "@fastify/cors";
 import type { FastifyPluginAsync } from "fastify";
 import { environmentSchema } from "@schemas/environment.js";
 import { fileURLToPath } from "url";
@@ -18,6 +19,7 @@ declare module "fastify" {
     config: {
       FASTIFY_PORT: number;
       DIRECTUS_URL: string;
+      COOKIE_SECRET: string;
     };
   }
 }
@@ -32,6 +34,11 @@ const app: FastifyPluginAsync<AppOptions> = async (
   // Place here your custom code!
   await fastify.register(Env, {
     schema: environmentSchema,
+  });
+
+  await fastify.register(Cors, {
+    origin: "http://localhost:3000",
+    credentials: true,
   });
 
   // Do not touch the following lines
