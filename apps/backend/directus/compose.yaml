@@ -9,7 +9,7 @@ services:
       timeout: 10s
     platform: linux/amd64
     volumes:
-      - ./data/database:/var/lib/postgesql/data
+      - ./data/database:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
@@ -24,7 +24,7 @@ services:
       - 8055:8055
     volumes:
       - ./uploads:/directus/uploads
-      - ./extension:/directus/extension
+      - ./extensions:/directus/extensions
     depends_on:
       cache:
         condition: service_started

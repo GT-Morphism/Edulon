@@ -3,9 +3,8 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
   telemetry: false,
-  modules: ["@nuxt/eslint", "@nuxt/ui", "@pinia/nuxt"],
+  modules: ["@nuxt/eslint", "@nuxt/ui"],
   future: {
     compatibilityVersion: 4,
   },
 });
-

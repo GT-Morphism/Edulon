@@ -84,3 +84,6 @@ directus.env
 server/dist
 public/dist
 
+# directus
+apps/backend/directus/data
+apps/backend/directus/uploads
