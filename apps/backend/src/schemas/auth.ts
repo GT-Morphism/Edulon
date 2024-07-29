@@ -1,5 +1,6 @@
 import { Type } from "@sinclair/typebox";
 
+// LOGIN SCHEMAS
 export const directusLoginResponseSchema = Type.Object({
   message: Type.String(),
   authenticated: Type.Boolean(),

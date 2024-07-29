@@ -35,17 +35,24 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
         expires: new Date(Date.now() + (data.expires || 90000)),
       });
 
-      reply.setCookie("expires", String(data.expires || 90000), {
-        httpOnly: true,
-        sameSite: true,
-        signed: true,
-        path: "/",
-        maxAge: 7 * 24 * 60 * 60,
-        expires: new Date(Date.now() + (data.expires || 90000)),
-      });
+      reply.setCookie(
+        "expires_at",
+        String(
+          data.expires_at ||
+            new Date(Date.now() + (data.expires || 90000)).getTime(),
+        ),
+        {
+          httpOnly: true,
+          sameSite: true,
+          signed: true,
+          path: "/",
+          maxAge: 7 * 24 * 60 * 60,
+          expires: new Date(Date.now() + (data.expires || 90000)),
+        },
+      );
 
       return {
-        message: "success",
+        message: data.access_token || "",
         authenticated: true,
       };
     },
