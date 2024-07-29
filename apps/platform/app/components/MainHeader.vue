@@ -13,5 +13,6 @@
     </nav>
 
     <LoginFormModalTrigger v-if="!session" />
+    <RegisterFormModalTrigger v-if="!session" />
   </header>
 </template>

@@ -53,3 +53,34 @@ export async function login(email: string, password: string) {
 
   useSession().value = response.authenticated;
 }
+
+export async function register(name: string, email: string, password: string) {
+  const response = await $fetch<
+    paths["/api/auth/register/"]["post"]["responses"]["200"]["content"]["application/json"], // response type
+    string, // type of url
+    {
+      method: "POST";
+      body: paths["/api/auth/register/"]["post"]["requestBody"]["content"]["application/json"];
+      headers: { "Content-Type": string };
+      credentials: "include";
+    } // options type with body type
+  >("http://localhost:5555/api/auth/register", {
+    method: "POST",
+    body: {
+      name: name,
+      email: email,
+      password: password,
+    },
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+
+  console.log(
+    "registering new user; changing useSession().value to",
+    response.authenticated,
+  );
+
+  useSession().value = response.authenticated;
+}
