@@ -1,6 +1,9 @@
 import * as path from "path";
 import AutoLoad, { type AutoloadPluginOptions } from "@fastify/autoload";
+import Env from "@fastify/env";
+import Cors from "@fastify/cors";
 import type { FastifyPluginAsync } from "fastify";
+import { environmentSchema } from "@schemas/environment.js";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -10,6 +13,17 @@ export type AppOptions = {
   // Place your custom options for app below here.
 } & Partial<AutoloadPluginOptions>;
 
+// Declaration merging to enhance the `FastifyInstance` with custom properties
+declare module "fastify" {
+  interface FastifyInstance {
+    config: {
+      FASTIFY_PORT: number;
+      DIRECTUS_URL: string;
+      COOKIE_SECRET: string;
+    };
+  }
+}
+
 // Pass --options via CLI arguments in command to enable these options.
 const options: AppOptions = {};
 
@@ -18,6 +32,14 @@ const app: FastifyPluginAsync<AppOptions> = async (
   opts,
 ): Promise<void> => {
   // Place here your custom code!
+  await fastify.register(Env, {
+    schema: environmentSchema,
+  });
+
+  await fastify.register(Cors, {
+    origin: "http://localhost:3000",
+    credentials: true,
+  });
 
   // Do not touch the following lines
 
