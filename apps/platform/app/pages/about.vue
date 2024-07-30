@@ -1,6 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+  const session = useSession();
+</script>
 
 <template>
-  <h1>About</h1>
-  <Test />
+  <div>
+    <h1>About</h1>
+    <p v-if="session">Welcome, dear user</p>
+  </div>
 </template>
