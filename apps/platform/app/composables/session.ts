@@ -46,12 +46,15 @@ export async function login(email: string, password: string) {
     credentials: "include",
   });
 
-  console.log(
-    "logging in; changing useSession().value to",
-    response.authenticated,
-  );
+  if (!response.ok) {
+    console.log("Somehting went wrong while trying to login user");
+    useSession().value = false;
+    return;
+  }
 
-  useSession().value = response.authenticated;
+  console.log("User login successful");
+  useSession().value = true;
+  return navigateTo("/profile");
 }
 
 export async function register(name: string, email: string, password: string) {
@@ -77,10 +80,9 @@ export async function register(name: string, email: string, password: string) {
     credentials: "include",
   });
 
-  console.log(
-    "registering new user; changing useSession().value to",
-    response.authenticated,
-  );
+  if (!response.ok) {
+    console.log("Something went wrong while trying to register a new user");
+  }
 
-  useSession().value = response.authenticated;
+  console.log("User registration successful");
 }

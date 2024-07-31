@@ -2,9 +2,18 @@
   import * as v from "valibot";
   import type { FormSubmitEvent, FormErrorEvent, Form } from "#ui/types";
 
-  const { usedInModal } = defineProps<{
-    usedInModal?: boolean;
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      usedInModal?: boolean;
+      headline?: string;
+      showHintIfNoAccountIsAvailable?: boolean;
+    }>(),
+    {
+      usedInModal: false,
+      headline: "Login",
+      showHintIfNoAccountIsAvailable: true,
+    },
+  );
 
   const modal = useModal();
   const toast = useToast();
@@ -14,7 +23,7 @@
       v.string(),
       v.trim(),
       v.email("Keine gültige E-Mail-Adresse"),
-      v.endsWith("@test.de", "Die E-Mail muss mit @test.de enden"),
+      v.endsWith("@adesso.de", "Die E-Mail muss mit @test.de enden"),
     ),
     password: v.pipe(
       v.string(),
@@ -59,7 +68,9 @@
     @submit="onSubmit"
     @error="onError"
   >
-    <h2 class="text-primary text-2xl/tight">Login</h2>
+    <h2 class="text-primary text-2xl/tight">
+      {{ props.headline }}
+    </h2>
     <!-- E-MAIL INPUT -->
     <UFormGroup
       label="Deine E-Mail-Adresse"
@@ -107,19 +118,31 @@
     </UFormGroup>
 
     <!-- CTAS -->
-    <div class="flex items-center justify-between">
-      <span class="text-xs text-gray-500 underline dark:text-gray-400"
+    <div
+      class="flex items-center"
+      :class="
+        props.showHintIfNoAccountIsAvailable ? 'justify-between' : 'justify-end'
+      "
+    >
+      <!-- NO ACCOUNT HINT -->
+      <span
+        v-if="props.showHintIfNoAccountIsAvailable"
+        class="text-xs text-gray-500 underline dark:text-gray-400"
         >Noch kein Account?</span
       >
+
       <div class="flex gap-x-4">
+        <!-- CLOSE MODAL BUTTON (ONLY INSIDE MODAL) -->
         <UButton
-          v-if="usedInModal"
+          v-if="props.usedInModal"
           type="button"
           variant="outline"
           @click="modal.close()"
         >
           Doch nicht
         </UButton>
+
+        <!-- SUBMIT LOGIN FORM -->
         <UButton type="submit"> Let's Go </UButton>
       </div>
     </div>

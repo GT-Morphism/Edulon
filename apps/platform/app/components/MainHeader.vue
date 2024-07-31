@@ -9,6 +9,7 @@
       <ul class="flex justify-center gap-x-4">
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/about">About</NuxtLink></li>
+        <li><NuxtLink to="/login">Login</NuxtLink></li>
       </ul>
     </nav>
 

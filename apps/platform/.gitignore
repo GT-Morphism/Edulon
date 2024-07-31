@@ -25,3 +25,6 @@ logs
 
 # swagger
 swagger.ts
+
+# The root .gitignore adds `profile*`
+!profile.vue

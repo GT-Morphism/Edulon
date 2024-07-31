@@ -21,40 +21,51 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
       },
     },
     async (request, reply) => {
-      const data = await client.login(
-        request.body.email,
-        request.body.password,
-      );
+      try {
+        const data = await client.login(
+          request.body.email,
+          request.body.password,
+        );
 
-      reply.setCookie("access_token", data.access_token || "no-access-token", {
-        httpOnly: true,
-        sameSite: true,
-        signed: true,
-        path: "/",
-        maxAge: 7 * 24 * 60 * 60,
-        expires: new Date(Date.now() + (data.expires || 90000)),
-      });
+        reply.setCookie(
+          "access_token",
+          data.access_token || "no-access-token",
+          {
+            httpOnly: true,
+            sameSite: true,
+            signed: true,
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60,
+            expires: new Date(Date.now() + (data.expires || 90000)),
+          },
+        );
 
-      reply.setCookie(
-        "expires_at",
-        String(
-          data.expires_at ||
-            new Date(Date.now() + (data.expires || 90000)).getTime(),
-        ),
-        {
-          httpOnly: true,
-          sameSite: true,
-          signed: true,
-          path: "/",
-          maxAge: 7 * 24 * 60 * 60,
-          expires: new Date(Date.now() + (data.expires || 90000)),
-        },
-      );
+        reply.setCookie(
+          "expires_at",
+          String(
+            data.expires_at ||
+              new Date(Date.now() + (data.expires || 90000)).getTime(),
+          ),
+          {
+            httpOnly: true,
+            sameSite: true,
+            signed: true,
+            path: "/",
+            maxAge: 7 * 24 * 60 * 60,
+            expires: new Date(Date.now() + (data.expires || 90000)),
+          },
+        );
 
-      return {
-        message: data.access_token || "",
-        authenticated: true,
-      };
+        return {
+          ok: true,
+        };
+      } catch (error) {
+        reply.code(400);
+        console.error("Error while trying to login user; logging error", error);
+        return {
+          ok: false,
+        };
+      }
     },
   );
 };
