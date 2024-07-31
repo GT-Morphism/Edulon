@@ -43,7 +43,10 @@
     await register(state.name, state.email, state.password);
 
     modal.close();
-    toast.add({ title: "Willkommen" });
+    toast.add({
+      title:
+        "Stark, Bruder 💪 Verifiziere Deine E-Mail, um Dich anmelden zu können (sorry, aber das ist notwendig).",
+    });
   }
 
   async function onError(event: FormErrorEvent) {

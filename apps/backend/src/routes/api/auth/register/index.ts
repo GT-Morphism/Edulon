@@ -29,40 +29,26 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
       },
     },
     async (request, reply) => {
-      const result = await client.request(
+      const result = await client.request<{ ok: boolean }>(
         registerUser(request.body.email, request.body.password, {
           first_name: request.body.name,
+          verification_url: "http://localhost:3000/login",
         }),
       );
 
-      console.log("Result upon registration", result);
-
-      // const data = await client.login(
-      //   request.body.email,
-      //   request.body.password,
-      // );
-      //
-      // reply.setCookie("access_token", data.access_token || "no-access-token", {
-      //   httpOnly: true,
-      //   sameSite: true,
-      //   signed: true,
-      //   path: "/",
-      //   maxAge: 7 * 24 * 60 * 60,
-      //   expires: new Date(Date.now() + (data.expires || 90000)),
-      // });
-      //
-      // reply.setCookie("expires", String(data.expires || 90000), {
-      //   httpOnly: true,
-      //   sameSite: true,
-      //   signed: true,
-      //   path: "/",
-      //   maxAge: 7 * 24 * 60 * 60,
-      //   expires: new Date(Date.now() + (data.expires || 90000)),
-      // });
+      if (!result.ok) {
+        console.log(
+          "Something with the registration went wrong; logging result object",
+          result,
+        );
+        reply.code(400);
+        return {
+          ok: false,
+        };
+      }
 
       return {
-        message: "success",
-        authenticated: true,
+        ok: true,
       };
     },
   );

@@ -19,3 +19,12 @@ export const directusRegisterPostSchema = Type.Object({
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8 }),
 });
+
+// VERIFY EMAIL SCHEMA
+export const directusVerifyEmailResponseSchema = Type.Object({
+  ok: Type.Boolean(),
+});
+
+export const directusVerifyEmailPostSchema = Type.Object({
+  token: Type.String({ minLength: 1 }),
+});
