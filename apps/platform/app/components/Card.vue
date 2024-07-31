@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  defineProps({
-    title: String,
-    description: String,
-  });
+  defineProps<{
+    title: string;
+    description?: string;
+  }>();
 </script>
 
 <template>
@@ -11,10 +11,10 @@
   >
     <div class="h-28 bg-gray-600"></div>
     <div class="flex flex-col gap-4 p-6 dark:text-black">
-      <header v-if="title" class="text-xl/8 font-medium md:text-2xl">
+      <header class="text-xl/8 font-medium md:text-2xl">
         {{ title }}
       </header>
-      <p class="text-sm/6 md:text-base">
+      <p class="text-sm/6 md:text-base" v-if="description">
         {{ description }}
       </p>
     </div>
