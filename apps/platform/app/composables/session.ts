@@ -86,11 +86,23 @@ async function register(name: string, email: string, password: string) {
 
   console.log("User registration successful");
 }
+
+async function logout() {
+  console.log(
+    "%crunning logout method in session composable; fetching nitro /api/session endpoint",
+    "color: red",
+  );
+  await $fetch("/api/session", { method: "DELETE", credentials: "include" });
+  useSessionState().value = false;
+  return navigateTo("/login");
+}
+
 export function useUserSession() {
   const session = useSessionState();
   return {
     session,
     login,
     register,
+    logout,
   };
 }
