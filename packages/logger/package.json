@@ -1,0 +1,21 @@
+{
+  "name": "@edulon/logger",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup"
+  },
+  "devDependencies": {
+    "@edulon/typescript-config": "workspace:*",
+    "tsup": "^8.2.3",
+    "typescript": "^5.5.3"
+  }
+}
