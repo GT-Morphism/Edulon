@@ -72,6 +72,9 @@ importers:
         specifier: ^0.21.3
         version: 0.21.3
     devDependencies:
+      '@edulon/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       '@types/node':
         specifier: ^20.14.10
         version: 20.14.11
@@ -133,6 +136,8 @@ importers:
       openapi-typescript:
         specifier: ^7.1.0
         version: 7.1.0(typescript@5.5.3)
+
+  packages/typescript-config: {}
 
 packages:
 
