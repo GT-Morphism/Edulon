@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import * as v from "valibot";
   import type { FormSubmitEvent, FormErrorEvent, Form } from "#ui/types";
+  const { login } = useUserSession();
 
   const props = withDefaults(
     defineProps<{

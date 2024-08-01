@@ -1,6 +1,6 @@
 import type { paths } from "~~/swagger";
 
-export const useSession = () =>
+const useSessionState = () =>
   useState("session", () => {
     return checkSession();
   });
@@ -31,7 +31,7 @@ function checkSession() {
   return true;
 }
 
-export async function login(email: string, password: string) {
+async function login(email: string, password: string) {
   const response = await $fetch<
     paths["/api/auth/login/"]["post"]["responses"]["200"]["content"]["application/json"]
   >("http://localhost:5555/api/auth/login", {
@@ -48,16 +48,16 @@ export async function login(email: string, password: string) {
 
   if (!response.ok) {
     console.log("Somehting went wrong while trying to login user");
-    useSession().value = false;
+    useSessionState().value = false;
     return;
   }
 
   console.log("User login successful");
-  useSession().value = true;
+  useSessionState().value = true;
   return navigateTo("/profile");
 }
 
-export async function register(name: string, email: string, password: string) {
+async function register(name: string, email: string, password: string) {
   const response = await $fetch<
     paths["/api/auth/register/"]["post"]["responses"]["200"]["content"]["application/json"], // response type
     string, // type of url
@@ -85,4 +85,12 @@ export async function register(name: string, email: string, password: string) {
   }
 
   console.log("User registration successful");
+}
+export function useUserSession() {
+  const session = useSessionState();
+  return {
+    session,
+    login,
+    register,
+  };
 }

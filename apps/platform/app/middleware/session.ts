@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  const session = useSession();
+  const { session } = useUserSession();
   if (to.name === "login" && session.value) {
     console.log("user has running session; redirecting to landing page");
     return navigateTo("/");
