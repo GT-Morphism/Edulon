@@ -12,5 +12,9 @@
         <span>{{ lecture.author }}</span>
       </li>
     </ul>
+
+    <div class="p-16">
+      <InputFilesDropdown />
+    </div>
   </div>
 </template>
