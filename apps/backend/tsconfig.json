@@ -1,6 +1,7 @@
 {
   "extends": ["@edulon/typescript-config/fastify.json"],
   "compilerOptions": {
+    "outDir": "dist",
     "paths": {
       "@schemas/*": ["./src/schemas/*"]
     }

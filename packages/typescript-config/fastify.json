@@ -5,7 +5,6 @@
   "compilerOptions": {
     "lib": ["ESNext"],
     "module": "NodeNext",
-    "outDir": "dist",
     "sourceMap": true
   }
 }
