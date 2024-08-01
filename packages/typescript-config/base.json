@@ -17,9 +17,7 @@
     "noUnusedLocals": true,
     "exactOptionalPropertyTypes": true,
     "allowUnreachableCode": false,
-    "forceConsistentCasingInFileNames": true,
-    "module": "NodeNext",
-    "lib": ["ESNext"]
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules"]
 }
