@@ -53,10 +53,7 @@
     emit("update:modelValue", files.value);
   };
 
-  const removeFile = (i: number) => {
-    files.value.splice(i, 1);
-  };
-
+  // Updates the local state when the component value is updated
   watch(
     () => props.modelValue,
     (newValue) => {
@@ -64,6 +61,7 @@
     },
   );
 
+  // Initially sets the local state to the value of the component value
   onNuxtReady(() => {
     files.value = props.modelValue;
   });
@@ -132,7 +130,7 @@
           <div class="flex pe-2">
             <UButton
               v-if="!readonly"
-              @click="removeFile(i)"
+              @click="files.splice(i, 1)"
               icon="i-heroicons-trash"
               size="md"
               :padded="false"

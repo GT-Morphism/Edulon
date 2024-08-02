@@ -4,6 +4,7 @@ import {
   authentication,
   rest,
   uploadFiles,
+  withToken,
 } from "@directus/sdk";
 
 const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
@@ -22,29 +23,42 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
       },
     },
     async (request, reply) => {
-      const parts = request.files(); // get files from multipart
-      const formData = new FormData();
+      try {
+        const tokenFromRequest = request.unsignCookie(
+          request.cookies.access_token || "",
+        );
+        const parts = request.files(); // get files from multipart
+        const formData = new FormData();
 
-      // assign files from request to a new form data for directus sdk
-      for await (const part of parts) {
-        if (part.type === "file") {
-          const chunks: Uint8Array[] = [];
+        // assign files from request to a new form data for directus sdk
+        for await (const part of parts) {
+          if (part.type === "file") {
+            const chunks: Uint8Array[] = [];
 
-          for await (const chunk of part.file) {
-            chunks.push(chunk);
+            for await (const chunk of part.file) {
+              chunks.push(chunk);
+            }
+
+            const blob = new Blob(chunks, { type: part.mimetype });
+            formData.append("file", blob, part.filename);
           }
-
-          const blob = new Blob(chunks, { type: part.mimetype });
-          formData.append("file", blob, part.filename);
         }
+
+        // upload via directus sdk
+        await client.request(
+          withToken(tokenFromRequest.value || "", uploadFiles(formData)),
+        );
+
+        return {
+          ok: true,
+        };
+      } catch (error) {
+        console.log("Error while uploading file to directus:" + error.message);
+
+        return {
+          ok: false,
+        };
       }
-
-      // upload via directus sdk
-      await client.request(uploadFiles(formData));
-
-      return {
-        message: "success",
-      };
     },
   );
 };
