@@ -33,7 +33,7 @@ function checkSession() {
 
 async function login(email: string, password: string) {
   const response = await $fetch<
-    paths["/api/auth/login/"]["post"]["responses"]["200"]["content"]["application/json"]
+    paths["/api/auth/login"]["post"]["responses"]["200"]["content"]["application/json"]
   >("http://localhost:5555/api/auth/login", {
     method: "POST",
     body: {
@@ -59,11 +59,11 @@ async function login(email: string, password: string) {
 
 async function register(name: string, email: string, password: string) {
   const response = await $fetch<
-    paths["/api/auth/register/"]["post"]["responses"]["200"]["content"]["application/json"], // response type
+    paths["/api/auth/register"]["post"]["responses"]["200"]["content"]["application/json"], // response type
     string, // type of url
     {
       method: "POST";
-      body: paths["/api/auth/register/"]["post"]["requestBody"]["content"]["application/json"];
+      body: paths["/api/auth/register"]["post"]["requestBody"]["content"]["application/json"];
       headers: { "Content-Type": string };
       credentials: "include";
     } // options type with body type

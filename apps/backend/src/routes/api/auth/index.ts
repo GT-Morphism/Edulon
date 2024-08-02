@@ -2,7 +2,6 @@ import {
   createDirectus,
   authentication,
   registerUser,
-  logout,
   rest,
   registerUserVerify,
 } from "@directus/sdk";
