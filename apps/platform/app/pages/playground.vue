@@ -19,9 +19,25 @@
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-4 py-4">
-    <div v-for="card in cards">
-      <Card :title="card.title" :description="card.description" />
+  <section>
+    <h2>Card Component</h2>
+    <div class="grid grid-cols-3 gap-4 py-4">
+      <div v-for="card in cards">
+        <Card :title="card.title" :description="card.description" />
+      </div>
     </div>
-  </div>
+  </section>
+  <section>
+    <h2>Table Component</h2>
+    <Table />
+  </section>
 </template>
+
+<style>
+  section {
+    @apply mb-24;
+  }
+  h2 {
+    @apply text-primary mb-4 text-2xl/tight;
+  }
+</style>
