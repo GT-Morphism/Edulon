@@ -1,11 +1,6 @@
 <script lang="ts" setup>
-  type valueFiles = {
-    name: string;
-    buffer?: string | ArrayBuffer | null;
-  }[];
-
   export interface Props {
-    modelValue?: valueFiles;
+    modelValue?: File[];
     readonly?: boolean;
     multiple?: boolean;
     accept?: string;
@@ -20,9 +15,9 @@
 
   const emit = defineEmits(["update:modelValue"]);
 
-  const isDragging: globalThis.Ref<boolean> = ref(false);
+  const isDragging = ref<boolean>(false);
   const input = ref(null);
-  const files: globalThis.Ref<valueFiles> = ref(props.modelValue);
+  const files = ref<File[]>(props.modelValue);
 
   const onDragOver = (event: DragEvent) => {
     event.preventDefault();
@@ -49,31 +44,14 @@
 
   const readFiles = (inputFiles: FileList | null | undefined) => {
     if (!inputFiles) return;
-    const formData = new FormData();
 
     for (const file of inputFiles) {
-      console.log(formData, file);
-      formData.append("files", file, file.name);
-      console.log(formData);
+      if (!props.multiple) files.value = [];
+      files.value.push(file);
     }
 
-    
-    
-    for (const file of inputFiles) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (!props.multiple) files.value = [];
-        files.value.push({
-          name: file.name,
-          buffer: reader.result,
-        });
-        if (input.value) (input.value as HTMLInputElement).value = "";
-        console.log(files.value);
-
-        emit("update:modelValue", files.value);
-      };
-      reader.readAsArrayBuffer(file);
-    }
+    if (input.value) (input.value as HTMLInputElement).value = "";
+    emit("update:modelValue", files.value);
   };
 
   const removeFile = (i: number) => {
@@ -96,9 +74,6 @@
   <div class="flex w-full flex-col items-center justify-center">
     <label
       v-if="!readonly"
-      @dragover="onDragOver"
-      @dragleave="isDragging = false"
-      @drop="onDrop"
       for="dropzone-file"
       :class="
         isDragging
@@ -106,6 +81,9 @@
           : 'dark:bg-surface-500 dark:hover:bg-surface-600 border-dashed border-gray-400 bg-gray-200 hover:bg-gray-100'
       "
       class="flex min-h-36 w-full cursor-pointer flex-col items-center justify-center rounded border bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,white_0,white_50%)] bg-[size:12px_12px] px-14 py-7 transition-colors duration-75 dark:bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,black_0,black_50%)]"
+      @dragover="onDragOver"
+      @dragleave="isDragging = false"
+      @drop="onDrop"
     >
       <div
         class="light:text-black flex flex-col items-center justify-center gap-y-2"
@@ -125,12 +103,12 @@
 
       <input
         ref="input"
-        @change="onChange($event)"
-        :multiple="multiple"
-        :accept="accept"
         id="dropzone-file"
         type="file"
         class="hidden"
+        :multiple="multiple"
+        :accept="accept"
+        @change="onChange($event)"
       />
     </label>
 

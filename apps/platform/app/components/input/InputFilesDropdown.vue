@@ -6,14 +6,7 @@
     link: v.optional(
       v.pipe(v.string(), v.url("Die URL ist fehlerhaft formatiert.")),
     ),
-    files: v.optional(
-      v.array(
-        v.object({
-          name: v.string(),
-          buffer: v.any(),
-        }),
-      ),
-    ),
+    files: v.optional(v.array(v.file())),
   });
 
   type Schema = v.InferOutput<typeof schema>;
@@ -24,14 +17,7 @@
   });
 
   async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const formData = new FormData();
-
-    if (event.data.files) {
-      for (let file of event.data.files) {
-        formData.append("files", file, file.name);
-      }
-    }
-    uploadFiles(formData);
+    if (event.data.files?.length) uploadFiles(event.data.files);
   }
 
   async function onError(event: FormErrorEvent) {
