@@ -1,8 +1,11 @@
 <script lang="ts" setup>
-  export interface Props {
+  interface Props {
     modelValue?: File[];
+    /** Makes the component not mutable; the user can not edit the value.  */
     readonly?: boolean;
+    /** If set, the input accepts one or more files. */
     multiple?: boolean;
+    /** A comma-seperated list of one or more filetypes, describing which file type to allow */
     accept?: string;
   }
 
@@ -15,9 +18,9 @@
 
   const emit = defineEmits(["update:modelValue"]);
 
-  const isDragging = ref<boolean>(false);
-  const input = ref(null);
-  const files = ref<File[]>(props.modelValue);
+  const isDragging = ref(false);
+  const input = ref<HTMLInputElement | null>(null);
+  const files = ref(props.modelValue);
 
   const onDragOver = (event: DragEvent) => {
     event.preventDefault();
@@ -29,20 +32,16 @@
     event.preventDefault();
     isDragging.value = false;
     const inputFiles = event.dataTransfer?.files;
-    readFiles(inputFiles);
-  };
-
-  const triggerFileInput = () => {
-    if (input.value) (input.value as HTMLInputElement)?.click();
+    saveFilesToLocalState(inputFiles);
   };
 
   const onChange = (event: Event) => {
     const inputElement = event.target as HTMLInputElement;
     const inputFiles = inputElement.files;
-    readFiles(inputFiles);
+    saveFilesToLocalState(inputFiles);
   };
 
-  const readFiles = (inputFiles: FileList | null | undefined) => {
+  const saveFilesToLocalState = (inputFiles: FileList | null | undefined) => {
     if (!inputFiles) return;
 
     for (const file of inputFiles) {
@@ -50,7 +49,7 @@
       files.value.push(file);
     }
 
-    if (input.value) (input.value as HTMLInputElement).value = "";
+    if (input.value) input.value.value = "";
     emit("update:modelValue", files.value);
   };
 
@@ -92,11 +91,11 @@
           name="i-heroicons-document-arrow-down-20-solid"
           class="h-8 w-8"
         />
-        <p class="align-center flex flex-col text-center text-sm">
+        <p class="flex flex-col items-center text-center text-sm">
           <span>Ziehe deine Lösung hier hin </span>
           oder
         </p>
-        <UButton color="gray" variant="solid" @click="triggerFileInput()">
+        <UButton color="gray" variant="solid" @click="input?.click()">
           Dateien auswählen
         </UButton>
       </div>
