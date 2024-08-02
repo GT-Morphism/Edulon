@@ -68,7 +68,7 @@
 </script>
 
 <template>
-  <div class="flex w-full flex-col items-center justify-center">
+  <div class="flex flex-col">
     <label
       v-if="!readonly"
       for="dropzone-file"
@@ -77,13 +77,13 @@
           ? 'border-edulon-500 bg-edulon-100 dark:bg-edulon-900 border-solid'
           : 'dark:bg-surface-500 dark:hover:bg-surface-600 border-dashed border-gray-400 bg-gray-200 hover:bg-gray-100'
       "
-      class="flex min-h-36 w-full cursor-pointer flex-col items-center justify-center rounded border bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,white_0,white_50%)] bg-[size:12px_12px] px-14 py-7 transition-colors duration-75 dark:bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,black_0,black_50%)]"
+      class="flex min-h-36 w-full cursor-pointer flex-col items-center justify-center rounded border bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,white_0,white_50%)] bg-[size:12px_12px] px-14 py-7 motion-safe:transition-colors dark:bg-[repeating-linear-gradient(315deg,transparent_0,transparent_1px,black_0,black_50%)]"
       @dragover="onDragOver"
       @dragleave="isDragging = false"
       @drop="onDrop"
     >
       <div
-        class="light:text-black flex flex-col items-center justify-center gap-y-2"
+        class="flex flex-col items-center gap-y-2 text-black dark:text-white"
       >
         <UIcon
           name="i-heroicons-document-arrow-down-20-solid"
@@ -112,14 +112,15 @@
     <template v-if="files?.length">
       <UDivider class="py-6" />
 
-      <div class="flex w-full flex-col gap-4">
+      <div class="flex flex-col gap-y-4">
         <p class="font-bold">Ausgewählte Dokumente</p>
 
         <div
           v-for="(file, i) in files"
           :key="i"
-          class="dark:bg-surface-500 box-border grid w-full grid-cols-[max-content_auto_max-content] items-center gap-x-3 overflow-hidden rounded bg-slate-50 p-2 shadow-sm"
+          class="dark:bg-surface-500 grid grid-cols-[max-content_auto_max-content] items-center gap-x-3 rounded bg-slate-50 p-2 shadow-sm"
         >
+          {{ console.log(file) }}
           <UIcon
             name="i-heroicons-document-arrow-down-20-solid"
             class="h-5 w-5"
@@ -137,7 +138,9 @@
               color="gray"
               variant="link"
               square
-            />
+            >
+              <span class="sr-only">Ausgewählte Datei entfernen.</span>
+            </UButton>
           </div>
         </div>
       </div>

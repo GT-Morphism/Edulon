@@ -49,15 +49,15 @@ const route: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
           withToken(tokenFromRequest.value || "", uploadFiles(formData)),
         );
 
-        return {
+        reply.status(200).send({
           ok: true,
-        };
+        });
       } catch (error) {
-        console.log("Error while uploading file to directus:" + error.message);
+        console.log("Error while uploading file to directus.");
 
-        return {
+        reply.status(400).send({
           ok: false,
-        };
+        });
       }
     },
   );

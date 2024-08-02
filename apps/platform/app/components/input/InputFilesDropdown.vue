@@ -26,17 +26,19 @@
 </script>
 
 <template>
-  <UForm :schema="schema" :state="state" @submit="onSubmit" @error="onError">
-    <UFormGroup
-      class="mb-6"
-      name="link"
-      label="Dokumentenlink (z.B. Sharepoint)"
-    >
+  <UForm
+    :schema="v.safeParser(schema)"
+    :state="state"
+    @submit="onSubmit"
+    @error="onError"
+    class="flex flex-col gap-y-6"
+  >
+    <UFormGroup name="link" label="Dokumentenlink (z.B. Sharepoint)">
       <UInput v-model="state.link" color="gray" variant="outline" />
     </UFormGroup>
 
     <InputFiles v-model="state.files" multiple />
 
-    <UButton type="submit" class="ms-auto mt-6 block"> Speichern </UButton>
+    <UButton type="submit" class="ms-auto block"> Speichern </UButton>
   </UForm>
 </template>
