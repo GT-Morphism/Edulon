@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import * as v from "valibot";
   import type { FormSubmitEvent, FormErrorEvent, Form } from "#ui/types";
+  import { RegisterFormModal } from "#components";
+
   const { login } = useUserSession();
 
   const props = withDefaults(
@@ -58,6 +60,18 @@
     elementToFocus?.focus();
     elementToFocus?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  function onClickAccoutHint() {
+    if (props.usedInModal) {
+      modal.close();
+      // When triggered while the LoginFormModal is open, we need to wait first that
+      // the LoginFormModal is closed.
+      setTimeout(() => modal.open(RegisterFormModal), 250);
+      return;
+    }
+
+    modal.open(RegisterFormModal);
+  }
 </script>
 
 <template>
@@ -66,6 +80,7 @@
     :schema="v.safeParser(schema)"
     :state="state"
     class="me-auto ms-auto flex w-full max-w-md flex-col gap-y-8 py-8"
+    :validate-on="['submit', 'input', 'change']"
     @submit="onSubmit"
     @error="onError"
   >
@@ -126,11 +141,14 @@
       "
     >
       <!-- NO ACCOUNT HINT -->
-      <span
+      <button
         v-if="props.showHintIfNoAccountIsAvailable"
+        type="button"
         class="text-xs text-gray-500 underline dark:text-gray-400"
-        >Noch kein Account?</span
+        @click="onClickAccoutHint"
       >
+        Noch kein Account? (Shame on you 🧐)
+      </button>
 
       <div class="flex gap-x-4">
         <!-- CLOSE MODAL BUTTON (ONLY INSIDE MODAL) -->

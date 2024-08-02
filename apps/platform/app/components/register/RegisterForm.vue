@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import * as v from "valibot";
   import type { FormSubmitEvent, FormErrorEvent, Form } from "#ui/types";
+  import { LoginFormModal } from "#components";
+
   const { register } = useUserSession();
 
-  const { usedInModal } = defineProps<{
+  const props = defineProps<{
     usedInModal?: boolean;
   }>();
 
@@ -58,6 +60,18 @@
     elementToFocus?.focus();
     elementToFocus?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
+
+  function onClickAccoutHint() {
+    if (props.usedInModal) {
+      modal.close();
+      // When triggered while the RegisterFormModal is open, we need to wait first that
+      // the RegisterFormModal is closed.
+      setTimeout(() => modal.open(LoginFormModal), 250);
+      return;
+    }
+
+    modal.open(LoginFormModal);
+  }
 </script>
 
 <template>
@@ -66,6 +80,7 @@
     :schema="v.safeParser(schema)"
     :state="state"
     class="me-auto ms-auto flex w-full max-w-md flex-col gap-y-8 py-8"
+    :validate-on="['submit', 'input', 'change']"
     @submit="onSubmit"
     @error="onError"
   >
@@ -136,12 +151,17 @@
 
     <!-- CTAS -->
     <div class="flex items-center justify-between">
-      <span class="text-xs text-gray-500 underline dark:text-gray-400"
-        >Bereits ein Account? (Stark 💪)</span
+      <!-- ALREADY ACCOUNT HINT -->
+      <button
+        type="button"
+        class="text-xs text-gray-500 underline dark:text-gray-400"
+        @click="onClickAccoutHint"
       >
+        Bereits ein Account? (Stark 💪)
+      </button>
       <div class="flex gap-x-4">
         <UButton
-          v-if="usedInModal"
+          v-if="props.usedInModal"
           type="button"
           variant="outline"
           @click="modal.close()"
