@@ -1,0 +1,4 @@
+{
+  "extends": "@edulon/typescript-config/typescript-library.json",
+  "include": ["src/*"]
+}

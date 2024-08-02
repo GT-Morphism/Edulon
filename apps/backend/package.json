@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.14.10",
+    "@edulon/typescript-config": "workspace:*",
     "c8": "^9.1.0",
     "concurrently": "^8.2.2",
     "fastify-tsconfig": "^2.0.0",
