@@ -4,27 +4,25 @@
     description?: string;
     button: {
       buttonText: string;
-      buttonTarget: string;
       buttonUrl: string;
     };
   }>();
 </script>
+
 <template>
-  <div
-    class="flex h-[560px] items-center justify-center overflow-auto bg-[url('/assets/hero.png')] md:block"
+  <section
+    class="flex min-h-[560px] items-center justify-center bg-[url('/assets/hero.png')] px-7 md:block md:px-0 md:pl-12 md:pt-14"
   >
-    <div
-      class="mx-7 bg-white p-8 md:mx-0 md:ml-12 md:mt-14 md:max-w-[40%] dark:text-black"
-    >
-      <p class="mb-4 text-4xl/10 font-medium">
+    <div class="bg-white p-8 md:max-w-xl dark:text-black">
+      <h1 class="pb-4 text-4xl">
         {{ title }}
-      </p>
-      <p class="pb-7 leading-7" v-if="description">
+      </h1>
+      <p class="pb-7" v-if="description">
         {{ description }}
       </p>
-      <UButton :to="button.buttonUrl" size="lg" :target="button.buttonTarget">{{
+      <UButton :to="button.buttonUrl" size="lg">{{
         button.buttonText
       }}</UButton>
     </div>
-  </div>
+  </section>
 </template>

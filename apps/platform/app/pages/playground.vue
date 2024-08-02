@@ -23,7 +23,6 @@
         "Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donecsodal",
       button: {
         buttonText: "Ansehen",
-        buttonTarget: "_blank",
         buttonUrl: "#",
       },
     },
@@ -32,7 +31,6 @@
       description: "Maecenas nec odio et ante tincidunt tempus.",
       button: {
         buttonText: "Ansehen",
-        buttonTarget: "",
         buttonUrl: "#",
       },
     },
@@ -42,7 +40,6 @@
         "Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. ",
       button: {
         buttonText: "Ansehen",
-        buttonTarget: "_blank",
         buttonUrl: "#",
       },
     },
