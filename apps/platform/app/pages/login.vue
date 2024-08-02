@@ -2,7 +2,7 @@
   const routeQuery = useRoute().query;
 
   definePageMeta({
-    middleware: ["session", "verify"],
+    middleware: ["verify"],
   });
 
   const routeQueryHasToken = routeQuery.token !== undefined;

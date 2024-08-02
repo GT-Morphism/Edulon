@@ -15,6 +15,6 @@
 
     <LoginFormModalTrigger v-if="!session" />
     <RegisterFormModalTrigger v-if="!session" />
-    <UButton type="button" @click="logout">Logout</UButton>
+    <UButton v-if="session" type="button" @click="logout">Logout</UButton>
   </header>
 </template>

@@ -1,35 +1,8 @@
 import type { paths } from "~~/swagger";
 
-const useSessionState = () =>
-  useState("session", () => {
-    return checkSession();
-  });
-
-function checkSession() {
-  console.log("Running checkSession inside composable session.ts");
-  const access_token = useCookie("access_token");
-  const expires_at = useCookie("expires_at");
-
-  console.log(
-    "logging access_token inside composable session.ts",
-    access_token,
-  );
-
-  if (!access_token || !expires_at) {
-    console.log("no access_token or expires_at found");
-    return false;
-  }
-
-  if (Number(expires_at) <= new Date(Date.now()).getTime()) {
-    console.log("expires_at is in the past");
-    // deleteCookie(event, "access_token");
-    // deleteCookie(event, "expires_at");
-    return false;
-  }
-
-  console.log("all fine, returning true");
-  return true;
-}
+const useSessionState = () => useState<boolean>("session", () => false);
+const useSessionExpiresAt = () =>
+  useState<number>("session-expires-at", () => 0);
 
 async function login(email: string, password: string) {
   const response = await $fetch<
@@ -48,12 +21,17 @@ async function login(email: string, password: string) {
 
   if (!response.ok) {
     console.log("Somehting went wrong while trying to login user");
+    useSessionExpiresAt().value = 0;
     useSessionState().value = false;
     return;
   }
 
   console.log("User login successful");
-  useSessionState().value = true;
+  const { data } = await useFetch("/api/session");
+  useSessionState().value = data.value?.session || false;
+  useSessionExpiresAt().value = new Date().setSeconds(
+    new Date().getSeconds() + 10,
+  );
   return navigateTo("/profile");
 }
 
@@ -93,14 +71,18 @@ async function logout() {
     "color: red",
   );
   await $fetch("/api/session", { method: "DELETE", credentials: "include" });
+  useSessionExpiresAt().value = 0;
   useSessionState().value = false;
   return navigateTo("/login");
 }
 
 export function useUserSession() {
   const session = useSessionState();
+  const sessionExpiresAt = useSessionExpiresAt();
+
   return {
     session,
+    sessionExpiresAt,
     login,
     register,
     logout,

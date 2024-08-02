@@ -2,11 +2,12 @@ export default defineNuxtPlugin({
   name: "auth-server",
   enforce: "pre",
   async setup(_nuxtApp) {
-    const { session } = useUserSession();
-    console.log("running auth.server.ts");
-    const { data } = await useFetch("/api/user");
+    const { session, sessionExpiresAt } = useUserSession();
+    console.log("running session.server.ts plugin");
+    const { data } = await useFetch("/api/session");
 
-    console.log("logging fetched data inside auth.server.ts", data);
-    session.value = data.value;
+    session.value = data.value?.session || false;
+
+    sessionExpiresAt.value = data.value?.expiresAt || 0;
   },
 });

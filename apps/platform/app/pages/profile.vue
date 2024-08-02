@@ -1,8 +1,4 @@
-<script setup lang="ts">
-  definePageMeta({
-    middleware: ["session"],
-  });
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <h1>Profile Page</h1>
