@@ -4,6 +4,8 @@ import {
   registerUser,
   rest,
   registerUserVerify,
+  passwordRequest,
+  passwordReset,
 } from "@directus/sdk";
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import {
@@ -13,6 +15,10 @@ import {
   directusRegisterPostSchema,
   directusVerifyEmailPostSchema,
   directusVerifyEmailResponseSchema,
+  directusRequestPasswordResetResponseSchema,
+  directusRequestPasswordResetPostSchema,
+  directusPasswordResetResponseSchema,
+  directusPasswordResetPostSchema,
 } from "@schemas/auth.js";
 import type { FastifyInstance } from "fastify";
 
@@ -161,6 +167,89 @@ export default async function auth(fastify: FastifyInstance) {
         } catch (error) {
           console.error(
             "Something went wrong while trying to verify the email; logging error",
+            error,
+          );
+          return {
+            ok: false,
+          };
+        }
+      },
+    );
+
+    // REQUEST PASSWORD RESET ROUTE (/api/auth/password/request)
+    fastify.post(
+      "/password/request",
+      {
+        schema: {
+          tags: ["Auth"],
+          summary:
+            "Request a password reset email to be sent to the given user",
+          description:
+            "Fastify endpoint to request a password reset using the Directus SDK",
+          response: {
+            200: directusRequestPasswordResetResponseSchema,
+          },
+          body: directusRequestPasswordResetPostSchema,
+        },
+      },
+      async (request, reply) => {
+        try {
+          const result = await client.request(
+            passwordRequest(
+              request.body.email,
+              "http://localhost:3000/password/reset",
+            ),
+          );
+
+          console.log(
+            "Request of password reset successful; logging result",
+            result,
+          );
+
+          return {
+            ok: true,
+          };
+        } catch (error) {
+          console.error(
+            "Something went wrong while trying to request a password reset; logging error",
+            error,
+          );
+          return {
+            ok: false,
+          };
+        }
+      },
+    );
+
+    // RESET PASSWORD ROUTE (/api/auth/password/reset)
+    fastify.post(
+      "/password/reset",
+      {
+        schema: {
+          tags: ["Auth"],
+          summary: "Reset a password",
+          description:
+            "The request a password reset endpoint sends an email with a link to http://lcalhost:3000/password/reset which in turn uses this endpoint to allow the user to reset their password.",
+          response: {
+            200: directusPasswordResetResponseSchema,
+          },
+          body: directusPasswordResetPostSchema,
+        },
+      },
+      async (request, reply) => {
+        try {
+          const result = await client.request(
+            passwordReset(request.body.token, request.body.password),
+          );
+
+          console.log("Password reset successful; logging result", result);
+
+          return {
+            ok: true,
+          };
+        } catch (error) {
+          console.error(
+            "Something went wrong while trying to reset the password; logging error",
             error,
           );
           return {

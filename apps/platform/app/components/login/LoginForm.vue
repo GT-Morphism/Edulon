@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import * as v from "valibot";
   import type { FormSubmitEvent, FormErrorEvent, Form } from "#ui/types";
-  import { RegisterFormModal } from "#components";
+  import { RegisterFormModal, PasswordResetRequestModal } from "#components";
 
   const { login } = useUserSession();
 
@@ -72,6 +72,17 @@
 
     modal.open(RegisterFormModal);
   }
+
+  function onClickPasswordReset() {
+    if (props.usedInModal) {
+      modal.close();
+
+      setTimeout(() => modal.open(PasswordResetRequestModal), 250);
+      return;
+    }
+
+    modal.open(PasswordResetRequestModal);
+  }
 </script>
 
 <template>
@@ -127,10 +138,13 @@
           />
         </template>
       </UInput>
-      <span
+      <button
+        type="button"
         class="mt-2 inline-block text-xs text-gray-500 underline dark:text-gray-400"
-        >Passwort vergessen?</span
+        @click="onClickPasswordReset"
       >
+        Passwort vergessen?
+      </button>
     </UFormGroup>
 
     <!-- CTAS -->
