@@ -44,7 +44,7 @@
   const form = ref<Form<Schema>>();
   const showPassword = ref<boolean>(false);
 
-  async function onSubmit(event: FormSubmitEvent<Schema>) {
+  async function onSubmit(_event: FormSubmitEvent<Schema>) {
     form.value.clear();
     await login(state.email, state.password);
 
@@ -61,7 +61,7 @@
     elementToFocus?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  function onClickAccoutHint() {
+  function onClickAccountHint() {
     if (props.usedInModal) {
       modal.close();
       // When triggered while the LoginFormModal is open, we need to wait first that
@@ -95,9 +95,11 @@
     @submit="onSubmit"
     @error="onError"
   >
+    <!-- INTRO HEADLINE -->
     <h2 class="text-primary text-2xl/tight">
       {{ props.headline }}
     </h2>
+
     <!-- E-MAIL INPUT -->
     <UFormGroup
       label="Deine E-Mail-Adresse"
@@ -159,7 +161,7 @@
         v-if="props.showHintIfNoAccountIsAvailable"
         type="button"
         class="text-xs text-gray-500 underline dark:text-gray-400"
-        @click="onClickAccoutHint"
+        @click="onClickAccountHint"
       >
         Noch kein Account? (Shame on you 🧐)
       </button>

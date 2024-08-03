@@ -33,7 +33,10 @@ export default async function auth(fastify: FastifyInstance) {
       "/login",
       {
         schema: {
-          tags: ["Auth"],
+          tags: ["Authentication"],
+          summary: "Authenticate as a user",
+          description:
+            "Login to the application using the email and password provided. (More information: <a href='https://docs.directus.io/reference/authentication.html#login' target='_blank'>Directus Login</a>)",
           response: {
             200: directusLoginResponseSchema,
           },
@@ -100,10 +103,10 @@ export default async function auth(fastify: FastifyInstance) {
       "/register",
       {
         schema: {
-          tags: ["Auth"],
+          tags: ["Authentication"],
           summary: "Register a new user",
           description:
-            "Fastify endpoint to register a new user using the Directus SDK",
+            "Upon registration, an email is sent to the user with a link to verify their email address. The link within that email points to the URL provided by `verification_url` and appends to this URL a token as a query parameter. (More information: <a href='https://docs.directus.io/reference/authentication.html#register' target='_blank'>Directus Register</a>)",
           response: {
             200: directusRegisterResponseSchema,
           },
@@ -114,7 +117,7 @@ export default async function auth(fastify: FastifyInstance) {
         const result = await client.request<{ ok: boolean }>(
           registerUser(request.body.email, request.body.password, {
             first_name: request.body.name,
-            verification_url: "http://localhost:3000/login",
+            verification_url: `${fastify.config.FRONTEND_URL}/login`,
           }),
         );
 
@@ -135,15 +138,15 @@ export default async function auth(fastify: FastifyInstance) {
       },
     );
 
-    // VERIFY EMAIL ROUTE (/api/auth/regi)
+    // VERIFY EMAIL ROUTE (/api/auth/register/verify-email)
     fastify.post(
       "/register/verify-email",
       {
         schema: {
-          tags: ["Auth"],
-          summary: "Verify E-mail of user",
+          tags: ["Authentication"],
+          summary: "Verify a registration",
           description:
-            "Fastify endpoint to verify the E-mail of a user using the Directus SDK",
+            "If enabled in project settings, registering a user sends a verification email with a link to the URL provided by `verification_url` in the register API endpoint to allow the user to finish their registration. The token given by that link is used to verify the user's email address using this API endpoint. (More information: <a href='https://docs.directus.io/reference/authentication.html#verify-a-registration' target='_blank'>Directus Verify a Registration</a>)",
           response: {
             200: directusVerifyEmailResponseSchema,
           },
@@ -181,11 +184,10 @@ export default async function auth(fastify: FastifyInstance) {
       "/password/request",
       {
         schema: {
-          tags: ["Auth"],
-          summary:
-            "Request a password reset email to be sent to the given user",
+          tags: ["Authentication"],
+          summary: "Request password reset",
           description:
-            "Fastify endpoint to request a password reset using the Directus SDK",
+            "Request a password reset email to be sent to the given user. The `reset_url` dictates where the link in the email will lead to. The reset token will be passed as a query parameter to that URL. (More information: <a href='https://docs.directus.io/reference/authentication.html#request-password-reset' target='_blank'>Directus Request Password Reset</a>)",
           response: {
             200: directusRequestPasswordResetResponseSchema,
           },
@@ -197,7 +199,7 @@ export default async function auth(fastify: FastifyInstance) {
           const result = await client.request(
             passwordRequest(
               request.body.email,
-              "http://localhost:3000/password/reset",
+              `${fastify.config.FRONTEND_URL}/password/reset`,
             ),
           );
 
@@ -226,10 +228,10 @@ export default async function auth(fastify: FastifyInstance) {
       "/password/reset",
       {
         schema: {
-          tags: ["Auth"],
+          tags: ["Authentication"],
           summary: "Reset a password",
           description:
-            "The request a password reset endpoint sends an email with a link to http://lcalhost:3000/password/reset which in turn uses this endpoint to allow the user to reset their password.",
+            "The request a password reset endpoint sends an email with a link given by `reset_url` which in turn uses this endpoint to allow the user to reset their password. (More information: <a href='https://docs.directus.io/reference/authentication.html#reset-a-password' target='_blank'>Directus Reset a Password</a>)",
           response: {
             200: directusPasswordResetResponseSchema,
           },

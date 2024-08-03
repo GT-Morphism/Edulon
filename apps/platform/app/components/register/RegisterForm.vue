@@ -61,7 +61,7 @@
     elementToFocus?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
-  function onClickAccoutHint() {
+  function onClickAccountHint() {
     if (props.usedInModal) {
       modal.close();
       // When triggered while the RegisterFormModal is open, we need to wait first that
@@ -155,7 +155,7 @@
       <button
         type="button"
         class="text-xs text-gray-500 underline dark:text-gray-400"
-        @click="onClickAccoutHint"
+        @click="onClickAccountHint"
       >
         Bereits ein Account? (Stark 💪)
       </button>
