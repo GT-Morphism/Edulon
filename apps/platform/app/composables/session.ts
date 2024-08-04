@@ -27,12 +27,9 @@ async function login(email: string, password: string) {
   }
 
   console.log("User login successful");
-  const { data } = await useFetch("/api/session");
-  useSessionState().value = data.value?.session || false;
-  useSessionExpiresAt().value = new Date().setSeconds(
-    new Date().getSeconds() + 10,
-  );
-  return navigateTo("/profile");
+  const result = await $fetch("/api/session");
+  useSessionState().value = result?.session || false;
+  useSessionExpiresAt().value = result?.expiresAt || 0;
 }
 
 async function register(name: string, email: string, password: string) {

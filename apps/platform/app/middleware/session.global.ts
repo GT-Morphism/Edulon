@@ -1,12 +1,17 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const { session, sessionExpiresAt, logout } = useUserSession();
+  const toast = useToast();
+  console.log("running global session middleware");
   if (to.name === "login" && session.value) {
     console.log("user has running session; redirecting to landing page");
     return navigateTo("/");
   }
 
-  if (to.name === "profile" && !session.value) {
-    return navigateTo("/login");
+  if (to.name === "profile" && !session.value && import.meta.client) {
+    toast.add({
+      title: "Netter Versuch, mein Freund. Dafür musst Du Dich schon anmelden.",
+    });
+    return abortNavigation();
   }
 
   if (to.path === "/password/reset" && session.value) {

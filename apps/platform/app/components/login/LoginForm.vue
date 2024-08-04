@@ -10,11 +10,13 @@
       usedInModal?: boolean;
       headline?: string;
       showHintIfNoAccountIsAvailable?: boolean;
+      redirectTo?: string | undefined;
     }>(),
     {
       usedInModal: false,
       headline: "Login",
       showHintIfNoAccountIsAvailable: true,
+      redirectTo: undefined,
     },
   );
 
@@ -50,6 +52,12 @@
 
     modal.close();
     toast.add({ title: "Willkommen" });
+
+    if (props.redirectTo) {
+      return navigateTo(`/${props.redirectTo}`);
+    }
+
+    return navigateTo("/playground");
   }
 
   async function onError(event: FormErrorEvent) {
