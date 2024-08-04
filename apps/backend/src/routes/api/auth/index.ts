@@ -61,7 +61,7 @@ export default async function auth(fastify: FastifyInstance) {
               sameSite: true,
               signed: true,
               path: "/",
-              maxAge: 7 * 24 * 60 * 60,
+              maxAge: (data.expires || 90000) / 1000,
               expires: new Date(Date.now() + (data.expires || 90000)),
             },
           );
@@ -77,7 +77,7 @@ export default async function auth(fastify: FastifyInstance) {
               sameSite: true,
               signed: true,
               path: "/",
-              maxAge: 7 * 24 * 60 * 60,
+              maxAge: (data.expires || 90000) / 1000,
               expires: new Date(Date.now() + (data.expires || 90000)),
             },
           );
