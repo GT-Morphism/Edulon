@@ -47,26 +47,28 @@
 </script>
 
 <template>
-  <section>
-    <h2>Card Component</h2>
-    <div class="grid grid-cols-3 gap-4">
-      <div v-for="card in cards">
-        <Card :title="card.title" :description="card.description" />
+  <div>
+    <section>
+      <h2>Card Component</h2>
+      <div class="grid grid-cols-3 gap-4">
+        <div v-for="card in cards" :key="card.title + card.description">
+          <Card :title="card.title" :description="card.description" />
+        </div>
       </div>
-    </div>
-  </section>
-  <section>
-    <h2>Hero Component</h2>
-    <div class="flex flex-col gap-4">
-      <div v-for="hero in heroes">
-        <Hero
-          :title="hero.title"
-          :description="hero.description"
-          :button="hero.button"
-        />
+    </section>
+    <section>
+      <h2>Hero Component</h2>
+      <div class="flex flex-col gap-4">
+        <div v-for="hero in heroes" :key="hero.title + hero.description">
+          <Hero
+            :title="hero.title"
+            :description="hero.description"
+            :button="hero.button"
+          />
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <style>

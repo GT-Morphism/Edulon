@@ -19,6 +19,7 @@ declare module "fastify" {
     config: {
       FASTIFY_PORT: number;
       DIRECTUS_URL: string;
+      FRONTEND_URL: string;
       COOKIE_SECRET: string;
     };
   }
@@ -37,7 +38,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   });
 
   await fastify.register(Cors, {
-    origin: "http://localhost:3000",
+    origin: fastify.config.FRONTEND_URL,
     credentials: true,
   });
 

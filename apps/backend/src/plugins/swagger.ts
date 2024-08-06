@@ -13,6 +13,30 @@ const swaggerGenerator: FastifyPluginAsync = async (fastify, opts) => {
           "The Fastify backend exposes APIs to be consumed by the Nuxt frontend.",
         version: "1.0.0",
       },
+      servers: [
+        {
+          url: "http://localhost:3000",
+          description: "Development frontend server",
+        },
+        {
+          url: "http://localhost:5555",
+          description: "Development backend server",
+        },
+        {
+          url: "http://0.0.0.0:8055",
+          description: "Development directus server",
+        },
+      ],
+      tags: [
+        {
+          name: "Authentication",
+          description: "API endpoints for authentication",
+          externalDocs: {
+            url: "https://docs.directus.io/reference/authentication.html",
+            description: "Directus Authentication API Reference",
+          },
+        },
+      ],
       externalDocs: {
         url: "https://github.com/GT-Morphism/edulon",
         description: "Repo to the entire project",

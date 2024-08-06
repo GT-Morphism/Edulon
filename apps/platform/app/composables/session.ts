@@ -1,39 +1,12 @@
 import type { paths } from "~~/swagger";
 
-export const useSession = () =>
-  useState("session", () => {
-    return checkSession();
-  });
+const useSessionState = () => useState<boolean>("session", () => false);
+const useSessionExpiresAt = () =>
+  useState<number>("session-expires-at", () => 0);
 
-function checkSession() {
-  console.log("Running checkSession inside composable session.ts");
-  const access_token = useCookie("access_token");
-  const expires_at = useCookie("expires_at");
-
-  console.log(
-    "logging access_token inside composable session.ts",
-    access_token,
-  );
-
-  if (!access_token || !expires_at) {
-    console.log("no access_token or expires_at found");
-    return false;
-  }
-
-  if (Number(expires_at) <= new Date(Date.now()).getTime()) {
-    console.log("expires_at is in the past");
-    // deleteCookie(event, "access_token");
-    // deleteCookie(event, "expires_at");
-    return false;
-  }
-
-  console.log("all fine, returning true");
-  return true;
-}
-
-export async function login(email: string, password: string) {
+async function login(email: string, password: string) {
   const response = await $fetch<
-    paths["/api/auth/login/"]["post"]["responses"]["200"]["content"]["application/json"]
+    paths["/api/auth/login"]["post"]["responses"]["200"]["content"]["application/json"]
   >("http://localhost:5555/api/auth/login", {
     method: "POST",
     body: {
@@ -46,21 +19,26 @@ export async function login(email: string, password: string) {
     credentials: "include",
   });
 
-  console.log(
-    "logging in; changing useSession().value to",
-    response.authenticated,
-  );
+  if (!response.ok) {
+    console.log("Somehting went wrong while trying to login user");
+    useSessionExpiresAt().value = 0;
+    useSessionState().value = false;
+    return;
+  }
 
-  useSession().value = response.authenticated;
+  console.log("User login successful");
+  const result = await $fetch("/api/session");
+  useSessionState().value = result?.session || false;
+  useSessionExpiresAt().value = result?.expiresAt || 0;
 }
 
-export async function register(name: string, email: string, password: string) {
+async function register(name: string, email: string, password: string) {
   const response = await $fetch<
-    paths["/api/auth/register/"]["post"]["responses"]["200"]["content"]["application/json"], // response type
+    paths["/api/auth/register"]["post"]["responses"]["200"]["content"]["application/json"], // response type
     string, // type of url
     {
       method: "POST";
-      body: paths["/api/auth/register/"]["post"]["requestBody"]["content"]["application/json"];
+      body: paths["/api/auth/register"]["post"]["requestBody"]["content"]["application/json"];
       headers: { "Content-Type": string };
       credentials: "include";
     } // options type with body type
@@ -77,10 +55,33 @@ export async function register(name: string, email: string, password: string) {
     credentials: "include",
   });
 
-  console.log(
-    "registering new user; changing useSession().value to",
-    response.authenticated,
-  );
+  if (!response.ok) {
+    console.log("Something went wrong while trying to register a new user");
+  }
 
-  useSession().value = response.authenticated;
+  console.log("User registration successful");
+}
+
+async function logout() {
+  console.log(
+    "%crunning logout method in session composable; fetching nitro /api/session endpoint",
+    "color: red",
+  );
+  await $fetch("/api/session", { method: "DELETE", credentials: "include" });
+  useSessionExpiresAt().value = 0;
+  useSessionState().value = false;
+  return navigateTo("/login");
+}
+
+export function useUserSession() {
+  const session = useSessionState();
+  const sessionExpiresAt = useSessionExpiresAt();
+
+  return {
+    session,
+    sessionExpiresAt,
+    login,
+    register,
+    logout,
+  };
 }
