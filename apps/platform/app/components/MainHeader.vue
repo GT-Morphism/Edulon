@@ -10,6 +10,7 @@
         <li><NuxtLink to="/">Home</NuxtLink></li>
         <li><NuxtLink to="/profile">Profil</NuxtLink></li>
         <li><NuxtLink to="/login">Login</NuxtLink></li>
+        <li><NuxtLink to="/playground">Playground</NuxtLink></li>
       </ul>
     </nav>
 
