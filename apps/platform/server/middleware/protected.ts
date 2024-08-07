@@ -1,4 +1,4 @@
-const PROTECTED_ROUTES = ["/profile", "/courses/", "/challenges/"];
+const PROTECTED_ROUTES = ["/profil", "/kurse/", "/challenges/"];
 
 export default defineEventHandler(async (event) => {
   const { session } = await checkSession(event);

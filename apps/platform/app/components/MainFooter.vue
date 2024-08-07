@@ -26,7 +26,7 @@
           <ul class="flex flex-col gap-y-2">
             <li>
               <NuxtLink
-                to="/courses"
+                to="/kurse"
                 class="hover:bg-primary/50 hover:ring-primary flex items-center gap-x-2 px-8 py-4 text-lg hover:ring-1"
               >
                 <UIcon
@@ -47,7 +47,7 @@
             </li>
             <li>
               <NuxtLink
-                to="/instructors"
+                to="/dozenten"
                 class="hover:bg-primary/50 hover:ring-primary flex items-center gap-x-2 px-8 py-4 text-lg hover:ring-1"
               >
                 <UIcon name="i-heroicons-briefcase-solid" class="h-10 w-10" />
@@ -73,10 +73,10 @@
       <nav aria-label="Footer rechtliche Seiten">
         <ul class="flex justify-around gap-x-8">
           <li>
-            <NuxtLink to="/imprint" class="text-sm">Impressum</NuxtLink>
+            <NuxtLink to="/impressum" class="text-sm">Impressum</NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/privacy" class="text-sm">Datenschutz</NuxtLink>
+            <NuxtLink to="/datenschutz" class="text-sm">Datenschutz</NuxtLink>
           </li>
         </ul>
       </nav>

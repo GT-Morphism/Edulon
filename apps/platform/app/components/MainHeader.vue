@@ -20,27 +20,27 @@
     "g-k": {
       handler: () => {
         showCommands.value = false;
-        return navigateTo("/courses");
+        return navigateTo("/kurse");
       },
     },
     "g-d": {
       handler: () => {
         showCommands.value = false;
-        return navigateTo("/instructors");
+        return navigateTo("/dozenten");
       },
     },
     "g-p": {
       whenever: [() => session.value],
       handler: () => {
         showCommands.value = false;
-        return navigateTo("/profile");
+        return navigateTo("/profil");
       },
     },
     "g-m": {
       whenever: [() => session.value],
       handler: () => {
         showCommands.value = false;
-        return navigateTo("/profile/my-courses");
+        return navigateTo("/profil/meine-kurse");
       },
     },
     ctrl_l: {
@@ -89,14 +89,13 @@
               <NuxtLink
                 class="before:bg-primary relative flex items-center gap-x-2 before:absolute before:-bottom-1 before:h-1 before:w-full before:origin-left before:scale-x-0 before:motion-safe:transition-transform"
                 :class="{
-                  'before:scale-x-100': route.path.startsWith('/courses'),
-                  'hover:before:scale-x-100':
-                    !route.path.startsWith('/courses'),
+                  'before:scale-x-100': route.path.startsWith('/kurse'),
+                  'hover:before:scale-x-100': !route.path.startsWith('/kurse'),
 
                   'focus-visible:before:scale-x-100':
-                    !route.path.startsWith('/courses'),
+                    !route.path.startsWith('/kurse'),
                 }"
-                to="/courses"
+                to="/kurse"
               >
                 <UIcon name="i-heroicons-academic-cap-solid" class="h-5 w-5" />
                 Kurse
@@ -134,13 +133,13 @@
               <NuxtLink
                 class="before:bg-primary relative flex items-center gap-x-2 before:absolute before:-bottom-1 before:h-1 before:w-full before:origin-left before:scale-x-0 before:motion-safe:transition-transform"
                 :class="{
-                  'before:scale-x-100': route.path.startsWith('/instructors'),
+                  'before:scale-x-100': route.path.startsWith('/dozenten'),
                   'hover:before:scale-x-100':
-                    !route.path.startsWith('/instructors'),
+                    !route.path.startsWith('/dozenten'),
                   'focus-visible:before:scale-x-100':
-                    !route.path.startsWith('/instructors'),
+                    !route.path.startsWith('/dozenten'),
                 }"
-                to="/instructors"
+                to="/dozenten"
               >
                 <UIcon name="i-heroicons-briefcase-solid" class="h-5 w-5" />
                 Dozenten
@@ -179,9 +178,9 @@
           :popper="{ strategy: 'absolute' }"
         >
           <NuxtLink
-            to="/profile/my-courses"
+            to="/profil/meine-kurse"
             class="flex items-center"
-            :class="{ 'text-primary': route.path === '/profile/my-courses' }"
+            :class="{ 'text-primary': route.path === '/profil/meine-kurse' }"
           >
             <UIcon name="i-heroicons-bookmark-solid" class="h-5 w-5" />
             <span class="sr-only">Zu Deinen Kursen</span>
@@ -195,9 +194,9 @@
           :popper="{ strategy: 'absolute' }"
         >
           <NuxtLink
-            to="/profile"
+            to="/profil"
             class="flex items-center"
-            :class="{ 'text-primary': route.path === '/profile' }"
+            :class="{ 'text-primary': route.path === '/profil' }"
           >
             <UIcon name="i-heroicons-user-circle-solid" class="h-5 w-5" />
             <span class="sr-only">Zu Deinem Profil</span>

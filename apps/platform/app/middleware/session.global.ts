@@ -8,9 +8,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   }
 
   if (
-    (to.path === "/profile" ||
-      to.path.startsWith("/profile/") ||
-      to.path.startsWith("/courses/") ||
+    (to.path === "/profil" ||
+      to.path.startsWith("/profil/") ||
+      to.path.startsWith("/kurse/") ||
       to.path.startsWith("/challenges/")) &&
     !session.value &&
     import.meta.client
