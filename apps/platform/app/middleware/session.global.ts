@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (
     (to.path === "/profile" ||
-      to.path.startsWith("profile/") ||
+      to.path.startsWith("/profile/") ||
       to.path.startsWith("/courses/") ||
       to.path.startsWith("/challenges/")) &&
     !session.value &&
