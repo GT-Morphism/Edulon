@@ -18,6 +18,15 @@
     :shortcuts="['Ctrl', 'L']"
     :popper="{ strategy: 'absolute' }"
   >
-    <UButton label="Anmelden" @click="modal.open(LoginFormModal)" />
+    <UButton
+      type="button"
+      icon="i-heroicons-arrow-left-on-rectangle"
+      variant="ghost"
+      color="white"
+      :padded="false"
+      @click="modal.open(LoginFormModal)"
+    >
+      <span class="sr-only">Anmelden</span>
+    </UButton>
   </UTooltip>
 </template>

@@ -18,6 +18,15 @@
     :shortcuts="['Ctrl', 'R']"
     :popper="{ strategy: 'absolute' }"
   >
-    <UButton label="Registrieren" @click="modal.open(RegisterFormModal)" />
+    <UButton
+      type="button"
+      icon="i-heroicons-user-plus"
+      variant="ghost"
+      color="white"
+      :padded="false"
+      @click="modal.open(RegisterFormModal)"
+    >
+      <span class="sr-only">Account erstellen</span>
+    </UButton>
   </UTooltip>
 </template>

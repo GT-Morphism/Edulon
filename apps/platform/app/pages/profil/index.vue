@@ -1,5 +1,5 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h1>Profile Page</h1>
+  <h1>Profilseite</h1>
 </template>
