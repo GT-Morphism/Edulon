@@ -56,8 +56,6 @@
     if (props.redirectTo) {
       return navigateTo(`/${props.redirectTo}`);
     }
-
-    return navigateTo("/playground");
   }
 
   async function onError(event: FormErrorEvent) {
