@@ -19,11 +19,11 @@
     :popper="{ strategy: 'absolute' }"
   >
     <UButton
+      type="button"
       icon="i-heroicons-user-plus"
       variant="ghost"
       color="white"
-      square
-      :padding="false"
+      :padded="false"
       @click="modal.open(RegisterFormModal)"
     >
       <span class="sr-only">Account erstellen</span>

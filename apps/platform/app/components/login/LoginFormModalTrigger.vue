@@ -19,11 +19,11 @@
     :popper="{ strategy: 'absolute' }"
   >
     <UButton
+      type="button"
       icon="i-heroicons-arrow-left-on-rectangle"
       variant="ghost"
       color="white"
-      square
-      :padding="false"
+      :padded="false"
       @click="modal.open(LoginFormModal)"
     >
       <span class="sr-only">Anmelden</span>
