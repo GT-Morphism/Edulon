@@ -68,10 +68,17 @@
         </div>
       </div>
     </section>
+
+    <section>
+      <h2>File Upload</h2>
+      <div class="p-16">
+        <InputFilesDropdown />
+      </div>
+    </section>
   </div>
 </template>
 
-<style>
+<style scoped>
   section {
     @apply mb-24;
   }
