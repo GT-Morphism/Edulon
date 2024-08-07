@@ -1,7 +1,13 @@
+const PROTECTED_ROUTES = ["/profile", "/courses/", "/challenges/"];
+
 export default defineEventHandler(async (event) => {
   const { session } = await checkSession(event);
 
-  if (event.path === "/profile" && !session) {
-    return sendRedirect(event, `/login?redirectTo=${event.path.split("/")[1]}`);
+  const isProtected = PROTECTED_ROUTES.some(
+    (route) => event.path === route || event.path.startsWith(route),
+  );
+
+  if (isProtected && !session) {
+    return sendRedirect(event, `/login?redirectTo=${event.path.slice(1)}`);
   }
 });
