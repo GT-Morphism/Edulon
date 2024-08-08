@@ -8,6 +8,17 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
+  $development: {
+    nitro: {
+      storage: {
+        devCache: {
+          driver: "fs",
+          base: "devCache",
+        },
+      },
+    },
+  },
+
   runtimeConfig: {
     backend: {
       baseUrl: "",

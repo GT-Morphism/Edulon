@@ -28,3 +28,6 @@ swagger.ts
 
 # The root .gitignore adds `profile*`
 !profile/
+
+# Development cache
+devCache
