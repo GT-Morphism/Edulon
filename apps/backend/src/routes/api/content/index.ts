@@ -1,10 +1,19 @@
-import { createDirectus, rest, readSingleton, readItems } from "@directus/sdk";
+import {
+  createDirectus,
+  rest,
+  readSingleton,
+  readItems,
+  withToken,
+} from "@directus/sdk";
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import {
   contentCoursesResponseSchema,
   contentLandingPageResponseSchema,
+  contentSingleCourseParamsSchema,
+  contentSingleCourseResponseSchema,
   type ContentCoursesResponse,
   type ContentLandingPageResponse,
+  type ContentSingleCourseResponse,
 } from "@schemas/content.js";
 import type { FastifyInstance } from "fastify";
 
@@ -55,6 +64,57 @@ export default async function auth(fastify: FastifyInstance) {
 
         console.log("Logging data from courses collection", data);
         return data;
+      },
+    );
+
+    // ROUTE FOR GETTING A SINGLE COURSE BY SLUG (api/content/courses/:slug)
+    fastify.get(
+      "/courses/:slug",
+      {
+        schema: {
+          tags: ["Content"],
+          summary: "Get a single course by slug (needs authentication)",
+          params: contentSingleCourseParamsSchema,
+          response: {
+            200: contentSingleCourseResponseSchema,
+          },
+        },
+      },
+      async (request, reply) => {
+        if (!request.cookies.access_token) {
+          console.log("No access token in cookie found");
+          reply.code(401);
+          return;
+        }
+        const tokenFromRequest = request.unsignCookie(
+          request.cookies.access_token,
+        );
+
+        if (!tokenFromRequest.valid) {
+          console.log("Access token in cookie found, but it is not valid");
+          reply.code(401);
+          return;
+        }
+
+        try {
+          const data = await client.request<ContentSingleCourseResponse[]>(
+            withToken(
+              tokenFromRequest.value as string,
+              readItems("courses", {
+                filter: {
+                  course_slug: {
+                    _eq: request.params.slug,
+                  },
+                },
+              }),
+            ),
+          );
+          return data[0];
+        } catch (error) {
+          console.error("Something went wrong", error);
+          reply.code(500);
+          return;
+        }
       },
     );
   };

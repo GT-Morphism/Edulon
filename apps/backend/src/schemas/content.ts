@@ -23,3 +23,18 @@ export const contentCoursesResponseSchema = Type.Array(
 export type ContentCoursesResponse = Static<
   typeof contentCoursesResponseSchema
 >;
+
+// SINGLE COURSE SCHEMA
+export const contentSingleCourseResponseSchema = Type.Object({
+  course_title: Type.String(),
+  course_summary: Type.String(),
+  course_introduction: Type.String(),
+});
+
+export type ContentSingleCourseResponse = Static<
+  typeof contentSingleCourseResponseSchema
+>;
+
+export const contentSingleCourseParamsSchema = Type.Object({
+  slug: Type.String(),
+});

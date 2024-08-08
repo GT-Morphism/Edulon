@@ -4,7 +4,6 @@
     key: "landing-page",
     // For client-side caching
     getCachedData(key, nuxt) {
-      console.log("inside getCachedData; logging nuxt app", { nuxt });
       return nuxt.payload.data[key];
     },
   });
