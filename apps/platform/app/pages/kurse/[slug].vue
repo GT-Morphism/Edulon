@@ -94,7 +94,7 @@
           class="max-w-prose"
         >
           <!-- CHAPTER HEADLINE -->
-          <h2 class="text-primary mb-4 text-4xl/tight">
+          <h2 class="mb-4 text-4xl/tight text-yellow-400">
             {{ chapter.headline }}
           </h2>
           <!-- CHAPTER TLDR -->
@@ -110,22 +110,25 @@
           <!-- CHAPTER BODY -->
           <div
             v-if="chapter.body"
-            class="[&>p_strong]:text-primary [&>h3]:after:bg-primary-800 [&>h3:not(:first-of-type)]:mt-12 [&>h3]:mb-4 [&>h3]:text-2xl/tight [&>h3]:after:block [&>h3]:after:h-1 [&>h3]:after:w-10 [&>h3]:after:content-[''] [&>p:not(:last-child):not(:has(+_h3))]:mb-4 [&>p]:leading-relaxed"
+            class="[&>p_strong]:text-primary [&>h3:not(:first-of-type)]:mt-12 [&>h3]:mb-4 [&>h3]:text-2xl/tight [&>h3]:after:block [&>h3]:after:h-1 [&>h3]:after:w-10 [&>h3]:after:bg-yellow-400 [&>h3]:after:content-[''] [&>p:not(:last-child):not(:has(+_h3))]:mb-4 [&>p]:leading-relaxed"
             v-html="chapter.body"
           />
 
           <!-- CHAPTER DOWNLOADABLE DOCUMENTS -->
           <h3
             v-if="chapter.documents.length > 0"
-            class="after:bg-primary-800 mb-4 mt-12 after:block after:h-1 after:w-10 after:content-['']"
+            class="mb-4 mt-12 after:block after:h-1 after:w-10 after:bg-yellow-400 after:content-['']"
           >
             Weitere Ressourcen zum Herunterladen
           </h3>
-          <div class="flex flex-wrap gap-x-4 gap-y-4">
+          <div
+            v-if="chapter.documents.length > 0"
+            class="flex flex-wrap gap-x-4 gap-y-4"
+          >
             <a
               v-for="document in chapter.documents"
               :key="document.id"
-              class="bg-surface-300/20 border-surface-300 relative flex flex-1 flex-col items-center gap-y-4 rounded-lg border p-4 text-center hover:scale-95 focus-visible:scale-95 motion-safe:transition-transform"
+              class="bg-surface-300/20 hover:text-primary focus-visible:bg-primary/20 focus-visible:border-primary focus-visible:text-primary border-surface-300 hover:bg-primary/20 hover:border-primary relative flex flex-1 flex-col items-center gap-y-4 rounded-lg border p-4 text-center hover:scale-95 focus-visible:scale-95 motion-safe:transition-transform"
               :href="`http://0.0.0.0:8055/assets/${document.id}?download`"
               :download="document.title"
             >

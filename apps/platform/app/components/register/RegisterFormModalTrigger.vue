@@ -20,6 +20,7 @@
   >
     <UButton
       type="button"
+      class="smooth-rotation"
       icon="i-heroicons-user-plus"
       variant="ghost"
       color="white"

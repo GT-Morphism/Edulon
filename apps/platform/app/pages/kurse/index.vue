@@ -24,7 +24,7 @@
         >
           <header>
             <h2 class="text-xl/tight">{{ course.course_title }}</h2>
-            <span class="text-primary text-xs"
+            <span class="text-xs text-yellow-400"
               >Aktualisiert am:
               <time :datetime="course.updated_at">{{
                 course.updated_at

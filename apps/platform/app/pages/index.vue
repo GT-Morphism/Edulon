@@ -17,11 +17,11 @@
     <p class="mb-14 text-3xl/tight">{{ data?.hero_subtitle }}</p>
     <div class="mb-2 flex items-center justify-center gap-x-2 text-8xl">
       <kbd
-        class="bg-surface-500 ring-surface-300 rounded-lg pe-4 ps-4 ring-2 ring-inset"
+        class="rounded-lg bg-yellow-400/20 pe-4 ps-4 ring-2 ring-inset ring-yellow-400"
         >{{ metaSymbol }}</kbd
       >
       <kbd
-        class="bg-surface-500 ring-surface-300 rounded-lg pe-4 ps-4 ring-2 ring-inset"
+        class="rounded-lg bg-yellow-400/20 pe-4 ps-4 ring-2 ring-inset ring-yellow-400"
         >K</kbd
       >
     </div>
