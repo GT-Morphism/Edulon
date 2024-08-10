@@ -24,11 +24,54 @@ export type ContentCoursesResponse = Static<
   typeof contentCoursesResponseSchema
 >;
 
-// SINGLE COURSE SCHEMA
+// SINGLE COURSE SCHEMA (ORIGINAL SCHEMA FROM DIRECTUS)
+const contentSingleCourseChapterOriginal = Type.Object({
+  item: Type.Object({
+    chapter_headline: Type.String(),
+    chapter_summary: Type.String(),
+    chapter_body: Type.String(),
+    chapter_documents: Type.Array(
+      Type.Object({
+        directus_files_id: Type.Object({
+          id: Type.String(),
+          title: Type.String(),
+          type: Type.String(),
+        }),
+      }),
+    ),
+  }),
+});
+
+const contentSingleCourseResponseOriginalSchema = Type.Object({
+  course_title: Type.String(),
+  course_summary: Type.String(),
+  course_introduction: Type.String(),
+  course_chapters: Type.Array(contentSingleCourseChapterOriginal),
+});
+
+export type ContentSingleCourseResponseOriginal = Static<
+  typeof contentSingleCourseResponseOriginalSchema
+>;
+
+// SINGLE COURSE SCHEMA (USED BY THE FRONTEND)
+const contentSingleCourseChapter = Type.Object({
+  chapter_headline: Type.String(),
+  chapter_summary: Type.String(),
+  chapter_body: Type.String(),
+  chapter_documents: Type.Array(
+    Type.Object({
+      id: Type.String(),
+      title: Type.String(),
+      type: Type.String(),
+    }),
+  ),
+});
+
 export const contentSingleCourseResponseSchema = Type.Object({
   course_title: Type.String(),
   course_summary: Type.String(),
   course_introduction: Type.String(),
+  course_chapters: Type.Array(contentSingleCourseChapter),
 });
 
 export type ContentSingleCourseResponse = Static<

@@ -14,6 +14,7 @@ import {
   type ContentCoursesResponse,
   type ContentLandingPageResponse,
   type ContentSingleCourseResponse,
+  type ContentSingleCourseResponseOriginal,
 } from "@schemas/content.js";
 import type { FastifyInstance } from "fastify";
 
@@ -97,7 +98,9 @@ export default async function auth(fastify: FastifyInstance) {
         }
 
         try {
-          const data = await client.request<ContentSingleCourseResponse[]>(
+          const originalCourseData = await client.request<
+            ContentSingleCourseResponseOriginal[]
+          >(
             withToken(
               tokenFromRequest.value as string,
               readItems("courses", {
@@ -106,10 +109,57 @@ export default async function auth(fastify: FastifyInstance) {
                     _eq: request.params.slug,
                   },
                 },
+                fields: [
+                  "course_title",
+                  "course_summary",
+                  "course_introduction",
+                  {
+                    course_chapters: [
+                      {
+                        item: [
+                          "chapter_headline",
+                          "chapter_summary",
+                          "chapter_body",
+                          "chapter_documents.directus_files_id.*",
+                        ],
+                      },
+                    ],
+                  },
+                ],
               }),
             ),
           );
-          return data[0];
+
+          console.log("Logging original course data", originalCourseData);
+
+          const transformedCourseData: ContentSingleCourseResponse[] =
+            originalCourseData.map((data) => {
+              return {
+                course_title: data.course_title,
+                course_summary: data.course_summary,
+                course_introduction: data.course_introduction,
+                course_chapters: data.course_chapters?.map((chapter) => {
+                  return {
+                    chapter_headline: chapter.item.chapter_headline,
+                    chapter_summary: chapter.item.chapter_summary,
+                    chapter_body: chapter.item.chapter_body,
+                    chapter_documents: chapter.item.chapter_documents?.map(
+                      (doc) => {
+                        return {
+                          id: doc.directus_files_id.id,
+                          title: doc.directus_files_id.title,
+                          type: doc.directus_files_id.type,
+                        };
+                      },
+                    ),
+                  };
+                }),
+              };
+            });
+
+          console.log("Logging transformed course data", transformedCourseData);
+
+          return transformedCourseData[0];
         } catch (error) {
           console.error("Something went wrong", error);
           reply.code(500);
