@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <section class="me-auto ms-auto max-w-screen-lg text-balance text-center">
+  <section class="text-balance text-center">
     <h1 class="text-primary mb-12 text-6xl/tight font-bold">
       {{ data?.hero_title }}
     </h1>

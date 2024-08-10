@@ -59,12 +59,35 @@ export default async function auth(fastify: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const data = await client.request<ContentCoursesResponse>(
+        const courses = await client.request<ContentCoursesResponse>(
           readItems("courses"),
         );
 
-        console.log("Logging data from courses collection", data);
-        return data;
+        if (courses.length === 0) {
+          console.log("data is empty; returning dummy data");
+          return [
+            {
+              course_title: "Dummy Title",
+              course_summary: "Dummy Summary",
+              course_slug: "dummy-slug",
+              updated_at: "01.01.1851",
+            },
+          ];
+        }
+
+        const coursesWithFormattedDate = courses.map((course) => {
+          return {
+            ...course,
+            updated_at: new Date(course.updated_at).toLocaleDateString("de-DE"),
+          };
+        });
+
+        console.log(
+          "Request for courses successful; logging courses with formatted date",
+          coursesWithFormattedDate,
+        );
+
+        return coursesWithFormattedDate;
       },
     );
 

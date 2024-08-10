@@ -17,6 +17,7 @@ export const contentCoursesResponseSchema = Type.Array(
     course_title: Type.String(),
     course_summary: Type.String(),
     course_slug: Type.String(),
+    updated_at: Type.String(),
   }),
 );
 

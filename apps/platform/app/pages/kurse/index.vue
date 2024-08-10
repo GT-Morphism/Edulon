@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <section class="me-auto ms-auto max-w-screen-lg text-balance">
+  <section class="text-balance">
     <h1 class="text-primary mb-12 text-6xl/tight font-bold">
       Unsere Kurse: Eine Klasse für sich
     </h1>
@@ -26,7 +26,9 @@
             <h2 class="text-xl/tight">{{ course.course_title }}</h2>
             <span class="text-primary text-xs"
               >Aktualisiert am:
-              <time datetime="2024-08-08">08.08.2024</time></span
+              <time :datetime="course.updated_at">{{
+                course.updated_at
+              }}</time></span
             >
           </header>
           <p class="line-clamp-4">{{ course.course_summary }}</p>
