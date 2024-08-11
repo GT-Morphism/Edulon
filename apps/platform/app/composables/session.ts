@@ -68,6 +68,7 @@ async function logout() {
     "color: red",
   );
   await $fetch("/api/session", { method: "DELETE", credentials: "include" });
+  clearNuxtData("current-user");
   useSessionExpiresAt().value = 0;
   useSessionState().value = false;
   return navigateTo("/login");

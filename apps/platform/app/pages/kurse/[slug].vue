@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import type { paths } from "~~/swagger";
+
   const routeParam = useRoute().params;
   const { data: course } = await useFetch(
     `/api/content/courses/${routeParam.slug}`,
@@ -61,6 +63,56 @@
       default:
         return "yolo";
     }
+  }
+
+  const state = reactive({
+    courseId: course.value?.course_id,
+  });
+
+  const idOfAssocationBetweenCourseAndCurrentUser = ref(
+    course.value?.id_of_association_between_course_and_current_user || -1,
+  );
+
+  async function onAddCourseToCurrentUser() {
+    const response = await $fetch<
+      paths["/api/users/me/courses"]["post"]["responses"]["200"]["content"]["application/json"]
+    >("http://localhost:5555/api/users/me/courses", {
+      method: "POST",
+      body: {
+        courses_id: state.courseId,
+      },
+      credentials: "include",
+    });
+
+    if (response.id) {
+      idOfAssocationBetweenCourseAndCurrentUser.value = response.id;
+    }
+
+    console.log(
+      "Logging response from POST request to /api/users/me/courses",
+      response,
+    );
+  }
+
+  async function onRemoveCourseFromCurrentUser() {
+    const response = await $fetch<
+      paths["/api/users/me/courses"]["delete"]["responses"]["200"]["content"]["application/json"]
+    >("http://localhost:5555/api/users/me/courses", {
+      method: "DELETE",
+      body: {
+        id_of_association: idOfAssocationBetweenCourseAndCurrentUser.value,
+      },
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      idOfAssocationBetweenCourseAndCurrentUser.value = -1;
+    }
+
+    console.log(
+      "Logging response from DELETE request to /api/users/me/courses",
+      response,
+    );
   }
 </script>
 
@@ -149,7 +201,7 @@
 
     <!-- SIDEBAR -->
     <aside class="sticky top-16 h-fit">
-      <nav>
+      <nav class="mb-4">
         <h2 class="mb-2 uppercase tracking-widest">Inhaltsverzeichnis</h2>
         <UVerticalNavigation
           :links="tableOfContentsLinks"
@@ -166,6 +218,39 @@
           }"
         />
       </nav>
+      <UForm
+        v-if="idOfAssocationBetweenCourseAndCurrentUser === -1"
+        :state="state"
+        @submit="onAddCourseToCurrentUser"
+      >
+        <UFormGroup hidden name="courses_id">
+          <UInput v-model="state.courseId" hidden />
+        </UFormGroup>
+        <UTooltip text="Kurs merken">
+          <UButton
+            type="submit"
+            class="smooth-rotation"
+            icon="i-heroicons-archive-box"
+            size="md"
+            square
+            variant="soft"
+            ><span class="sr-only">Kurs merken</span></UButton
+          >
+        </UTooltip>
+      </UForm>
+      <UTooltip v-else text="Kurs nicht mehr merken">
+        <UButton
+          type="button"
+          class="smooth-rotation"
+          color="red"
+          icon="i-heroicons-archive-box-x-mark"
+          size="md"
+          square
+          variant="soft"
+          @click="onRemoveCourseFromCurrentUser"
+          ><span class="sr-only">Kurs nicht mehr merken</span></UButton
+        >
+      </UTooltip>
     </aside>
   </div>
 </template>

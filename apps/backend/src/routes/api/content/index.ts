@@ -4,6 +4,7 @@ import {
   readSingleton,
   readItems,
   withToken,
+  readMe,
 } from "@directus/sdk";
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import {
@@ -133,6 +134,7 @@ export default async function auth(fastify: FastifyInstance) {
                   },
                 },
                 fields: [
+                  "id",
                   "course_title",
                   "course_summary",
                   "course_introduction",
@@ -153,36 +155,76 @@ export default async function auth(fastify: FastifyInstance) {
             ),
           );
 
+          const currentUser = await client.request(
+            withToken(
+              tokenFromRequest.value as string,
+              readMe({
+                fields: ["id"],
+              }),
+            ),
+          );
+
+          const idOfAssociationBetweenCourseAndCurrentUser =
+            await client.request<{ id: number }[] | []>(
+              withToken(
+                tokenFromRequest.value as string,
+                readItems("courses_directus_users", {
+                  filter: {
+                    courses_id: {
+                      _eq: originalCourseData[0]?.id,
+                    },
+                    directus_users_id: {
+                      _eq: currentUser.id,
+                    },
+                  },
+                  fields: ["id"],
+                }),
+              ),
+            );
+
+          console.log(
+            "Logging idOfAssociationBetweenCourseAndCurrentUser",
+            idOfAssociationBetweenCourseAndCurrentUser,
+          );
+
           console.log("Logging original course data", originalCourseData);
 
-          const transformedCourseData: ContentSingleCourseResponse[] =
-            originalCourseData.map((data) => {
-              return {
-                course_title: data.course_title,
-                course_summary: data.course_summary,
-                course_introduction: data.course_introduction,
-                course_chapters: data.course_chapters?.map((chapter) => {
-                  return {
-                    chapter_headline: chapter.item.chapter_headline,
-                    chapter_summary: chapter.item.chapter_summary,
-                    chapter_body: chapter.item.chapter_body,
-                    chapter_documents: chapter.item.chapter_documents?.map(
-                      (doc) => {
-                        return {
-                          id: doc.directus_files_id.id,
-                          title: doc.directus_files_id.title,
-                          type: doc.directus_files_id.type,
-                        };
-                      },
-                    ),
-                  };
-                }),
-              };
-            });
+          const transformedCourseData: Omit<
+            ContentSingleCourseResponse,
+            "id_of_association_between_course_and_current_user"
+          > = originalCourseData.map((data) => {
+            return {
+              course_id: data.id,
+              course_title: data.course_title,
+              course_summary: data.course_summary,
+              course_introduction: data.course_introduction,
+              course_chapters: data.course_chapters?.map((chapter) => {
+                return {
+                  chapter_headline: chapter.item.chapter_headline,
+                  chapter_summary: chapter.item.chapter_summary,
+                  chapter_body: chapter.item.chapter_body,
+                  chapter_documents: chapter.item.chapter_documents?.map(
+                    (doc) => {
+                      return {
+                        id: doc.directus_files_id.id,
+                        title: doc.directus_files_id.title,
+                        type: doc.directus_files_id.type,
+                      };
+                    },
+                  ),
+                };
+              }),
+            };
+            // TODO: Fix `!` non-null assertion
+          })[0]!;
 
-          console.log("Logging transformed course data", transformedCourseData);
+          const singleCourseData: ContentSingleCourseResponse = {
+            ...transformedCourseData,
+            id_of_association_between_course_and_current_user:
+              idOfAssociationBetweenCourseAndCurrentUser[0]?.id || -1,
+          };
 
-          return transformedCourseData[0];
+          return singleCourseData;
         } catch (error) {
           console.error("Something went wrong", error);
           reply.code(500);

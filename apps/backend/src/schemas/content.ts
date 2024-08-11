@@ -25,7 +25,7 @@ export type ContentCoursesResponse = Static<
   typeof contentCoursesResponseSchema
 >;
 
-// SINGLE COURSE SCHEMA (ORIGINAL SCHEMA FROM DIRECTUS)
+// SINGLE COURSE SCHEMA (ORIGINAL SCHEMA FROM DIRECTUS; USED FOR DATA TRANSFORMATION)
 const contentSingleCourseChapterOriginal = Type.Object({
   item: Type.Object({
     chapter_headline: Type.String(),
@@ -44,6 +44,7 @@ const contentSingleCourseChapterOriginal = Type.Object({
 });
 
 const contentSingleCourseResponseOriginalSchema = Type.Object({
+  id: Type.String({ format: "uuid" }),
   course_title: Type.String(),
   course_summary: Type.String(),
   course_introduction: Type.String(),
@@ -69,10 +70,12 @@ const contentSingleCourseChapter = Type.Object({
 });
 
 export const contentSingleCourseResponseSchema = Type.Object({
+  course_id: Type.String({ format: "uuid" }),
   course_title: Type.String(),
   course_summary: Type.String(),
   course_introduction: Type.String(),
   course_chapters: Type.Array(contentSingleCourseChapter),
+  id_of_association_between_course_and_current_user: Type.Number(),
 });
 
 export type ContentSingleCourseResponse = Static<

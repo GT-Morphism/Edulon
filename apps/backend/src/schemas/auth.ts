@@ -1,50 +1,50 @@
 import { Type } from "@sinclair/typebox";
 
 // LOGIN SCHEMAS
-export const directusLoginResponseSchema = Type.Object({
+export const loginResponseSchema = Type.Object({
   ok: Type.Boolean(),
 });
 
-export const directusLoginPostSchema = Type.Object({
+export const loginPostSchema = Type.Object({
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8 }),
 });
 
 // REGISTER SCHEMAS
-export const directusRegisterResponseSchema = Type.Object({
+export const registerResponseSchema = Type.Object({
   ok: Type.Boolean(),
 });
 
-export const directusRegisterPostSchema = Type.Object({
+export const registerPostSchema = Type.Object({
   name: Type.String({ minLength: 1 }),
   email: Type.String({ format: "email" }),
   password: Type.String({ minLength: 8 }),
 });
 
 // VERIFY EMAIL SCHEMA
-export const directusVerifyEmailResponseSchema = Type.Object({
+export const verifyEmailResponseSchema = Type.Object({
   ok: Type.Boolean(),
 });
 
-export const directusVerifyEmailPostSchema = Type.Object({
+export const verifyEmailPostSchema = Type.Object({
   token: Type.String({ minLength: 1 }),
 });
 
 // REQUEST PASSWORD RESET SCHEMA
-export const directusRequestPasswordResetResponseSchema = Type.Object({
+export const requestPasswordResetResponseSchema = Type.Object({
   ok: Type.Boolean(),
 });
 
-export const directusRequestPasswordResetPostSchema = Type.Object({
+export const requestPasswordResetPostSchema = Type.Object({
   email: Type.String({ format: "email" }),
 });
 
 // PASSWORD RESET SCHEMA
-export const directusPasswordResetResponseSchema = Type.Object({
+export const passwordResetResponseSchema = Type.Object({
   ok: Type.Boolean(),
 });
 
-export const directusPasswordResetPostSchema = Type.Object({
+export const passwordResetPostSchema = Type.Object({
   token: Type.String({ minLength: 1 }),
   password: Type.String({ minLength: 8 }),
 });
