@@ -71,6 +71,7 @@ pnpm-debug.log*
 
 
 # environment variables
+directus.env
 .env
 .env.production
 
@@ -83,5 +84,6 @@ pnpm-debug.log*
 server/dist
 public/dist
 
-# pocketbase
-pb_data
+# directus
+apps/directus/data
+apps/directus/uploads

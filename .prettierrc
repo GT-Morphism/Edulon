@@ -6,5 +6,6 @@
   "trailingComma": "all",
   "vueIndentScriptAndStyle": true,
   "endOfLine": "lf",
+  "tailwindAttributes": ["ui"],
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"]
 }

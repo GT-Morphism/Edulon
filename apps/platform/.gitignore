@@ -22,3 +22,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# swagger
+swagger.ts
+
+# The root .gitignore adds `profile*`
+!profile/
