@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Geist Sans";
+    src: url("/fonts/GeistVF.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Montserrat";
+    src: url("/fonts/MontserratVF.woff2") format("woff2");
+    font-display: swap;
+  }
+
+  body {
+    font-family: "Geist Sans", sans-serif;
+    @apply dark:bg-surface-900;
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    font-family: "Montserrat", sans-serif;
+  }
+
+  .smooth-rotation {
+    @apply origin-bottom hover:rotate-6 focus-visible:rotate-6 motion-safe:transition-transform;
+  }
+}

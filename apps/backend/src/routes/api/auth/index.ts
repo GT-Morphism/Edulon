@@ -9,16 +9,16 @@ import {
 } from "@directus/sdk";
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import {
-  directusLoginResponseSchema,
-  directusLoginPostSchema,
-  directusRegisterResponseSchema,
-  directusRegisterPostSchema,
-  directusVerifyEmailPostSchema,
-  directusVerifyEmailResponseSchema,
-  directusRequestPasswordResetResponseSchema,
-  directusRequestPasswordResetPostSchema,
-  directusPasswordResetResponseSchema,
-  directusPasswordResetPostSchema,
+  loginResponseSchema,
+  loginPostSchema,
+  registerResponseSchema,
+  registerPostSchema,
+  verifyEmailPostSchema,
+  verifyEmailResponseSchema,
+  requestPasswordResetResponseSchema,
+  requestPasswordResetPostSchema,
+  passwordResetResponseSchema,
+  passwordResetPostSchema,
 } from "@schemas/auth.js";
 import type { FastifyInstance } from "fastify";
 
@@ -38,9 +38,9 @@ export default async function auth(fastify: FastifyInstance) {
           description:
             "Login to the application using the email and password provided. (More information: <a href='https://docs.directus.io/reference/authentication.html#login' target='_blank'>Directus Login</a>)",
           response: {
-            200: directusLoginResponseSchema,
+            200: loginResponseSchema,
           },
-          body: directusLoginPostSchema,
+          body: loginPostSchema,
         },
       },
       async (request, reply) => {
@@ -108,9 +108,9 @@ export default async function auth(fastify: FastifyInstance) {
           description:
             "Upon registration, an email is sent to the user with a link to verify their email address. The link within that email points to the URL provided by `verification_url` and appends to this URL a token as a query parameter. (More information: <a href='https://docs.directus.io/reference/authentication.html#register' target='_blank'>Directus Register</a>)",
           response: {
-            200: directusRegisterResponseSchema,
+            200: registerResponseSchema,
           },
-          body: directusRegisterPostSchema,
+          body: registerPostSchema,
         },
       },
       async (request, reply) => {
@@ -148,9 +148,9 @@ export default async function auth(fastify: FastifyInstance) {
           description:
             "If enabled in project settings, registering a user sends a verification email with a link to the URL provided by `verification_url` in the register API endpoint to allow the user to finish their registration. The token given by that link is used to verify the user's email address using this API endpoint. (More information: <a href='https://docs.directus.io/reference/authentication.html#verify-a-registration' target='_blank'>Directus Verify a Registration</a>)",
           response: {
-            200: directusVerifyEmailResponseSchema,
+            200: verifyEmailResponseSchema,
           },
-          body: directusVerifyEmailPostSchema,
+          body: verifyEmailPostSchema,
         },
       },
       async (request, reply) => {
@@ -189,9 +189,9 @@ export default async function auth(fastify: FastifyInstance) {
           description:
             "Request a password reset email to be sent to the given user. The `reset_url` dictates where the link in the email will lead to. The reset token will be passed as a query parameter to that URL. (More information: <a href='https://docs.directus.io/reference/authentication.html#request-password-reset' target='_blank'>Directus Request Password Reset</a>)",
           response: {
-            200: directusRequestPasswordResetResponseSchema,
+            200: requestPasswordResetResponseSchema,
           },
-          body: directusRequestPasswordResetPostSchema,
+          body: requestPasswordResetPostSchema,
         },
       },
       async (request, reply) => {
@@ -233,9 +233,9 @@ export default async function auth(fastify: FastifyInstance) {
           description:
             "The request a password reset endpoint sends an email with a link given by `reset_url` which in turn uses this endpoint to allow the user to reset their password. (More information: <a href='https://docs.directus.io/reference/authentication.html#reset-a-password' target='_blank'>Directus Reset a Password</a>)",
           response: {
-            200: directusPasswordResetResponseSchema,
+            200: passwordResetResponseSchema,
           },
-          body: directusPasswordResetPostSchema,
+          body: passwordResetPostSchema,
         },
       },
       async (request, reply) => {

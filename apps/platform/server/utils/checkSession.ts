@@ -23,8 +23,6 @@ async function checkSession(event: H3Event<EventHandlerRequest>) {
     };
   }
 
-  console.log("logging expires_at cookie", expires_at);
-
   console.log("All fine in session.get.ts");
   return {
     session: true,

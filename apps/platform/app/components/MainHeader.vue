@@ -73,11 +73,13 @@
     <div
       class="me-auto ms-auto flex max-w-screen-xl items-center justify-between"
     >
+      <!-- LOGO -->
       <NuxtLink to="/">
         <AnimatedLogo class="max-w-14" />
         <span class="sr-only">Zur Startseite</span>
       </NuxtLink>
 
+      <!-- PAGE NAVIGATION -->
       <nav aria-label="Header">
         <ul class="flex gap-x-8">
           <li>
@@ -149,6 +151,7 @@
         </ul>
       </nav>
 
+      <!-- PLATFORM ACTIONS -->
       <div class="flex gap-x-4">
         <LoginFormModalTrigger v-if="!session" />
         <RegisterFormModalTrigger v-if="!session" />
@@ -161,6 +164,7 @@
         >
           <UButton
             type="button"
+            class="smooth-rotation"
             icon="i-heroicons-arrow-right-start-on-rectangle"
             variant="ghost"
             color="white"
@@ -179,7 +183,7 @@
         >
           <NuxtLink
             to="/profil/meine-kurse"
-            class="flex items-center"
+            class="smooth-rotation flex items-center"
             :class="{ 'text-primary': route.path === '/profil/meine-kurse' }"
           >
             <UIcon name="i-heroicons-bookmark-solid" class="h-5 w-5" />
@@ -195,7 +199,7 @@
         >
           <NuxtLink
             to="/profil"
-            class="flex items-center"
+            class="smooth-rotation flex items-center"
             :class="{ 'text-primary': route.path === '/profil' }"
           >
             <UIcon name="i-heroicons-user-circle-solid" class="h-5 w-5" />
@@ -210,6 +214,7 @@
         >
           <UButton
             type="button"
+            class="smooth-rotation"
             icon="i-heroicons-command-line"
             variant="ghost"
             color="white"
@@ -223,8 +228,10 @@
     </div>
   </header>
 
+  <!-- COMMAND PALETTE AS MODAL -->
   <UModal v-model="showCommands">
     <div class="flex flex-col gap-y-2 p-8">
+      <!-- INTRO NOTE -->
       <UBadge
         class="self-start"
         size="xs"
@@ -235,13 +242,14 @@
         Mit Shortcuts lässt es sich einfach besser leben. (Facts)
       </p>
 
+      <!-- PLATFORM ACTIONS SHORTCUTS -->
       <section
         class="[&>div:not(:last-child)]:mb-4"
         aria-labelledby="action-shortcuts-section-title"
       >
         <p
           id="action-shortcuts-section-title"
-          class="text-primary mb-1 text-xs"
+          class="mb-1 text-xs text-yellow-400"
         >
           Aktionen
         </p>
@@ -287,13 +295,14 @@
         :ui="{ border: { base: 'border-primary-200 dark:border-primary-800' } }"
       />
 
+      <!-- PAGE NAVIGATION SHORTCUTS -->
       <section
         class="[&>div:not(:last-child)]:mb-4"
         aria-labelledby="navigation-shortcuts-section-title"
       >
         <p
           id="navigation-shortcuts-section-title"
-          class="text-primary mb-1 text-xs"
+          class="mb-1 text-xs text-yellow-400"
         >
           Navigation
         </p>

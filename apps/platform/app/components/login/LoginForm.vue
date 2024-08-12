@@ -28,7 +28,6 @@
       v.string(),
       v.trim(),
       v.email("Keine gültige E-Mail-Adresse"),
-      v.endsWith("@adesso.de", "Die E-Mail muss mit @test.de enden"),
     ),
     password: v.pipe(
       v.string(),

@@ -1,11 +1,7 @@
-<script setup lang="ts">
-  import "~/assets/app.css";
-</script>
-
 <template>
-  <MainHeader />
   <NuxtRouteAnnouncer />
-  <main class="py-24"><NuxtPage /></main>
+  <MainHeader />
+  <main class="me-auto ms-auto max-w-screen-lg py-24"><NuxtPage /></main>
   <MainFooter />
   <UModals />
   <UNotifications />

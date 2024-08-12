@@ -36,6 +36,14 @@ const swaggerGenerator: FastifyPluginAsync = async (fastify, opts) => {
             description: "Directus Authentication API Reference",
           },
         },
+        {
+          name: "Content",
+          description: "API endpoints for content",
+          externalDocs: {
+            url: "https://docs.directus.io/reference/items.html",
+            description: "Directus Items API Reference",
+          },
+        },
       ],
       externalDocs: {
         url: "https://github.com/GT-Morphism/edulon",
