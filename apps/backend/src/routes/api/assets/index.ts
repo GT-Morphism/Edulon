@@ -16,7 +16,7 @@ export default async function assets(fastify: FastifyInstance) {
 
   const assetRoutes: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
     fastify.get(
-      "/:id/:fileName",
+      "/:id",
       {
         schema: {
           tags: ["Files"],
@@ -25,19 +25,20 @@ export default async function assets(fastify: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        const file = await client.request(readFile(request.params.id));
+        const file = await client.request(
+          readFile(request.params.id, {
+            fields: ["filename_download", "type"],
+          }),
+        );
         const result = await client.request(
           readAssetArrayBuffer(request.params.id),
         );
         const buffer = Buffer.from(result);
-
         reply.header(
           "Content-Disposition",
-          `attachment; filename="${file.name}"`,
+          `attachment; filename="${file.filename_download}"`,
         );
-
         reply.header("content-type", file.type);
-
         reply.send(buffer);
       },
     );
