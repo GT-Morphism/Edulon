@@ -181,8 +181,8 @@
               v-for="document in chapter.documents"
               :key="document.id"
               class="bg-surface-300/20 hover:text-primary focus-visible:bg-primary/20 focus-visible:border-primary focus-visible:text-primary border-surface-300 hover:bg-primary/20 hover:border-primary relative flex flex-1 flex-col items-center gap-y-4 rounded-lg border p-4 text-center hover:scale-95 focus-visible:scale-95 motion-safe:transition-transform"
-              :href="`http://0.0.0.0:8055/assets/${document.id}?download`"
-              :download="document.title"
+              :href="`http://localhost:5555/api/assets/${document.id}`"
+              download
             >
               <UIcon name="i-heroicons-document-arrow-down" class="h-8 w-8" />
               <span class="text-sm"> {{ document.title }} </span>
