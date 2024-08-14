@@ -1,4 +1,9 @@
-import { createDirectus, readAssetRaw, rest } from "@directus/sdk";
+import {
+  createDirectus,
+  readAssetArrayBuffer,
+  readFile,
+  rest,
+} from "@directus/sdk";
 import type { FastifyPluginAsyncTypebox } from "@fastify/type-provider-typebox";
 import { fileAssetParamsSchema } from "@schemas/files.js";
 
@@ -11,7 +16,7 @@ export default async function assets(fastify: FastifyInstance) {
 
   const assetRoutes: FastifyPluginAsyncTypebox = async (fastify, _opts) => {
     fastify.get(
-      "/:id",
+      "/:id/:fileName",
       {
         schema: {
           tags: ["Files"],
@@ -20,12 +25,20 @@ export default async function assets(fastify: FastifyInstance) {
         },
       },
       async (request, reply) => {
-        console.log(123, request.params.id);
+        const file = await client.request(readFile(request.params.id));
+        const result = await client.request(
+          readAssetArrayBuffer(request.params.id),
+        );
+        const buffer = Buffer.from(result);
 
-        const result = await client.request(readAssetRaw(request.params.id));
-        console.log(result);
+        reply.header(
+          "Content-Disposition",
+          `attachment; filename="${file.name}"`,
+        );
 
-        reply.send(result);
+        reply.header("content-type", file.type);
+
+        reply.send(buffer);
       },
     );
   };

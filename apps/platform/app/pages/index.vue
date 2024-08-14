@@ -11,6 +11,7 @@
 
 <template>
   <section class="text-balance text-center">
+    <img src="http://localhost:5555/api/assets/5d7b851e-f25d-4859-8b82-6f37687e8463/test.svg" />
     <h1 class="text-primary mb-12 text-6xl/tight font-bold">
       {{ data?.hero_title }}
     </h1>
